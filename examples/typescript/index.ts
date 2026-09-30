@@ -38,9 +38,12 @@ async function main() {
 
   if (customEndpoint) {
     log(`\n[INFO] Using custom Jev/Laya endpoint: ${customEndpoint}`);
+    // A local Laya server on CPU can take well over the SDK default of
+    // 10 seconds per request, so allow a generous per-attempt timeout.
     const sdkClient = new TypeSafeClient({
       apiKey: apiKey ?? "local",
       baseURL: customEndpoint,
+      timeout: 120_000,
     });
     client = new JevIncidentTriageService(sdkClient);
   } else if (apiKey) {

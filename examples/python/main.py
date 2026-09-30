@@ -45,7 +45,13 @@ def main():
 
     if custom_endpoint:
         log(f"\n[INFO] Using custom Jev/Laya endpoint: {custom_endpoint}")
-        sdk_client = TypeSafeClient(api_key=api_key or "local", base_url=custom_endpoint)
+        # A local Laya server on CPU can take well over the SDK default of
+        # 10 seconds per request, so allow a generous per-attempt timeout.
+        sdk_client = TypeSafeClient(
+            api_key=api_key or "local",
+            base_url=custom_endpoint,
+            timeout=120.0,
+        )
         client = JevIncidentTriageService(client=sdk_client)
     elif api_key:
         log("\n[INFO] Using live TypeSafe AI Jev SDK with TYPESAFE_API_KEY")
