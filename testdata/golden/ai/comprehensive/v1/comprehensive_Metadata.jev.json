@@ -1,0 +1,48 @@
+{
+  "message_name": "Metadata",
+  "package": "ai.comprehensive.v1",
+  "file_base": "comprehensive",
+  "questions": {
+    "version": {
+      "type": "Score",
+      "instructions": "Evaluate version",
+      "criteria": [
+        "Very low extent or intensity",
+        "Low extent or intensity",
+        "Moderate extent or intensity",
+        "High extent or intensity",
+        "Very high extent or intensity"
+      ],
+      "score_levels": [
+        {
+          "value": 1,
+          "description": "Very low extent or intensity"
+        },
+        {
+          "value": 2,
+          "description": "Low extent or intensity"
+        },
+        {
+          "value": 3,
+          "description": "Moderate extent or intensity"
+        },
+        {
+          "value": 4,
+          "description": "High extent or intensity"
+        },
+        {
+          "value": 5,
+          "description": "Very high extent or intensity"
+        }
+      ],
+      "proto_field": "version",
+      "json_field": "version",
+      "go_field": "Version",
+      "py_field": "version",
+      "field_type": "int32"
+    }
+  },
+  "order": [
+    "version"
+  ]
+}

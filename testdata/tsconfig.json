@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "esModuleInterop": true,
+    "strict": true,
+    "types": ["node"],
+    "typeRoots": ["../examples/typescript/node_modules/@types"],
+    "skipLibCheck": true,
+    "baseUrl": "../examples/typescript/node_modules",
+    "paths": {
+      "@typesafe-ai/sdk": ["@typesafe-ai/sdk"],
+      "@bufbuild/protobuf": ["@bufbuild/protobuf"],
+      "@bufbuild/protobuf/codegenv1": ["@bufbuild/protobuf/dist/esm/codegenv1/index.d.ts"],
+      "@bufbuild/protobuf/codegenv2": ["@bufbuild/protobuf/dist/esm/codegenv2/index.d.ts"],
+      "@bufbuild/protobuf/wkt": ["@bufbuild/protobuf/dist/esm/wkt/index.d.ts"]
+    }
+  },
+  "include": [
+    "../gen/jev/**/*.ts",
+    "behavior/check.ts"
+  ]
+}

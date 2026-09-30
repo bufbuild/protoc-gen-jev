@@ -1,0 +1,346 @@
+{
+  "message_name": "RuleTestRecord",
+  "package": "ai.rules.v1",
+  "file_base": "rules",
+  "questions": {
+    "customBoundedScore": {
+      "type": "Score",
+      "instructions": "13. Float with custom Jev min/max options -\u003e [10.0, 20.0, 30.0, 40.0, 50.0]",
+      "criteria": [
+        "10.0",
+        "20.0",
+        "30.0",
+        "40.0",
+        "50.0"
+      ],
+      "score_levels": [
+        {
+          "value": 10,
+          "description": "10.0"
+        },
+        {
+          "value": 20,
+          "description": "20.0"
+        },
+        {
+          "value": 30,
+          "description": "30.0"
+        },
+        {
+          "value": 40,
+          "description": "40.0"
+        },
+        {
+          "value": 50,
+          "description": "50.0"
+        }
+      ],
+      "proto_field": "custom_bounded_score",
+      "json_field": "customBoundedScore",
+      "go_field": "CustomBoundedScore",
+      "py_field": "custom_bounded_score",
+      "field_type": "float32"
+    },
+    "decisionFlag": {
+      "type": "Choice",
+      "instructions": "12. String with custom Jev criteria options -\u003e Choice",
+      "criteria": {
+        "APPROVE": "Request approved",
+        "REJECT": "Request rejected"
+      },
+      "proto_field": "decision_flag",
+      "json_field": "decisionFlag",
+      "go_field": "DecisionFlag",
+      "py_field": "decision_flag",
+      "field_type": "string"
+    },
+    "delivery_method": {
+      "type": "Choice",
+      "instructions": "1. Oneof mutual exclusion -\u003e maps to Choice",
+      "criteria": {
+        "email": "email",
+        "push_notification": "push_notification",
+        "sms": "sms"
+      },
+      "proto_field": "delivery_method",
+      "json_field": "delivery_method",
+      "go_field": "DeliveryMethod",
+      "py_field": "delivery_method",
+      "field_type": "oneof",
+      "is_oneof": true,
+      "oneof_name": "delivery_method",
+      "oneof_cases": {
+        "email": "Email",
+        "push_notification": "PushNotification",
+        "sms": "Sms"
+      },
+      "oneof_case_kinds": {
+        "email": "string",
+        "push_notification": "string",
+        "sms": "string"
+      }
+    },
+    "discreteCode": {
+      "type": "Score",
+      "instructions": "7. Integer with discrete allowed values -\u003e [\"10\", \"20\", \"50\", \"100\"]",
+      "criteria": [
+        "10",
+        "20",
+        "50",
+        "100"
+      ],
+      "score_levels": [
+        {
+          "value": 10,
+          "description": "10"
+        },
+        {
+          "value": 20,
+          "description": "20"
+        },
+        {
+          "value": 50,
+          "description": "50"
+        },
+        {
+          "value": 100,
+          "description": "100"
+        }
+      ],
+      "proto_field": "discrete_code",
+      "json_field": "discreteCode",
+      "go_field": "DiscreteCode",
+      "py_field": "discrete_code",
+      "field_type": "int32"
+    },
+    "discreteRatio": {
+      "type": "Score",
+      "instructions": "10. Float discrete values -\u003e [\"0.2\", \"0.5\", \"0.8\"]",
+      "criteria": [
+        "0.2",
+        "0.5",
+        "0.8"
+      ],
+      "score_levels": [
+        {
+          "value": 0.2,
+          "description": "0.2"
+        },
+        {
+          "value": 0.5,
+          "description": "0.5"
+        },
+        {
+          "value": 0.8,
+          "description": "0.8"
+        }
+      ],
+      "proto_field": "discrete_ratio",
+      "json_field": "discreteRatio",
+      "go_field": "DiscreteRatio",
+      "py_field": "discrete_ratio",
+      "field_type": "float32"
+    },
+    "executionMode": {
+      "type": "Choice",
+      "instructions": "3. Enum restricted by choices -\u003e Choice with only [MODE_FAST, MODE_BALANCED]",
+      "criteria": {
+        "MODE_BALANCED": "",
+        "MODE_FAST": ""
+      },
+      "proto_field": "execution_mode",
+      "json_field": "executionMode",
+      "go_field": "ExecutionMode",
+      "py_field": "execution_mode",
+      "field_type": "enum",
+      "is_enum": true,
+      "enum_type_name": "Mode"
+    },
+    "filteredMode": {
+      "type": "Choice",
+      "instructions": "4. Enum restricted by not_in -\u003e Choice omitting MODE_DEBUG",
+      "criteria": {
+        "MODE_ACCURATE": "",
+        "MODE_BALANCED": "",
+        "MODE_FAST": ""
+      },
+      "proto_field": "filtered_mode",
+      "json_field": "filteredMode",
+      "go_field": "FilteredMode",
+      "py_field": "filtered_mode",
+      "field_type": "enum",
+      "is_enum": true,
+      "enum_type_name": "Mode"
+    },
+    "largeScale": {
+      "type": "Score",
+      "instructions": "8. Large integer range -\u003e 5-tier interpolated rubric [0, 250, 500, 750, 1000]",
+      "criteria": [
+        "0",
+        "250",
+        "500",
+        "750",
+        "1000"
+      ],
+      "score_levels": [
+        {
+          "value": 0,
+          "description": "0"
+        },
+        {
+          "value": 250,
+          "description": "250"
+        },
+        {
+          "value": 500,
+          "description": "500"
+        },
+        {
+          "value": 750,
+          "description": "750"
+        },
+        {
+          "value": 1000,
+          "description": "1000"
+        }
+      ],
+      "proto_field": "large_scale",
+      "json_field": "largeScale",
+      "go_field": "LargeScale",
+      "py_field": "large_scale",
+      "field_type": "int64"
+    },
+    "ratingSmall": {
+      "type": "Score",
+      "instructions": "5. Integer with small range (\u003c= 10) -\u003e exact sequence [1..5]",
+      "criteria": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "score_levels": [
+        {
+          "value": 1,
+          "description": "1"
+        },
+        {
+          "value": 2,
+          "description": "2"
+        },
+        {
+          "value": 3,
+          "description": "3"
+        },
+        {
+          "value": 4,
+          "description": "4"
+        },
+        {
+          "value": 5,
+          "description": "5"
+        }
+      ],
+      "proto_field": "rating_small",
+      "json_field": "ratingSmall",
+      "go_field": "RatingSmall",
+      "py_field": "rating_small",
+      "field_type": "int32"
+    },
+    "ratingStrict": {
+      "type": "Score",
+      "instructions": "6. Integer with explicit scale -\u003e [1, 2, 3]",
+      "criteria": [
+        "1",
+        "2",
+        "3"
+      ],
+      "score_levels": [
+        {
+          "value": 1,
+          "description": "1"
+        },
+        {
+          "value": 2,
+          "description": "2"
+        },
+        {
+          "value": 3,
+          "description": "3"
+        }
+      ],
+      "proto_field": "rating_strict",
+      "json_field": "ratingStrict",
+      "go_field": "RatingStrict",
+      "py_field": "rating_strict",
+      "field_type": "int32"
+    },
+    "securityClearance": {
+      "type": "Choice",
+      "instructions": "11. String with allowed set of values -\u003e Choice",
+      "criteria": {
+        "PUBLIC": "",
+        "SECRET": "",
+        "TOP_SECRET": ""
+      },
+      "proto_field": "security_clearance",
+      "json_field": "securityClearance",
+      "go_field": "SecurityClearance",
+      "py_field": "security_clearance",
+      "field_type": "string"
+    },
+    "temperature": {
+      "type": "Score",
+      "instructions": "9. Float continuous range -\u003e 5-tier interpolated rubric [-40.0, -15.0, 10.0, 35.0, 60.0]",
+      "criteria": [
+        "-40.0",
+        "-15.0",
+        "10.0",
+        "35.0",
+        "60.0"
+      ],
+      "score_levels": [
+        {
+          "value": -40,
+          "description": "-40.0"
+        },
+        {
+          "value": -15,
+          "description": "-15.0"
+        },
+        {
+          "value": 10,
+          "description": "10.0"
+        },
+        {
+          "value": 35,
+          "description": "35.0"
+        },
+        {
+          "value": 60,
+          "description": "60.0"
+        }
+      ],
+      "proto_field": "temperature",
+      "json_field": "temperature",
+      "go_field": "Temperature",
+      "py_field": "temperature",
+      "field_type": "float32"
+    }
+  },
+  "order": [
+    "delivery_method",
+    "executionMode",
+    "filteredMode",
+    "ratingSmall",
+    "ratingStrict",
+    "discreteCode",
+    "largeScale",
+    "temperature",
+    "discreteRatio",
+    "securityClearance",
+    "decisionFlag",
+    "customBoundedScore"
+  ]
+}

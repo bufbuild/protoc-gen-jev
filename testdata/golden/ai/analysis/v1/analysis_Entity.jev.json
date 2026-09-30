@@ -1,0 +1,38 @@
+{
+  "message_name": "Entity",
+  "package": "ai.analysis.v1",
+  "file_base": "analysis",
+  "questions": {
+    "relevance": {
+      "type": "Score",
+      "instructions": "Relevance score from 0.0 to 1.0.",
+      "criteria": [
+        "Not relevant",
+        "Moderately relevant",
+        "Highly relevant"
+      ],
+      "score_levels": [
+        {
+          "value": 0,
+          "description": "Not relevant"
+        },
+        {
+          "value": 0.5,
+          "description": "Moderately relevant"
+        },
+        {
+          "value": 1,
+          "description": "Highly relevant"
+        }
+      ],
+      "proto_field": "relevance",
+      "json_field": "relevance",
+      "go_field": "Relevance",
+      "py_field": "relevance",
+      "field_type": "float32"
+    }
+  },
+  "order": [
+    "relevance"
+  ]
+}

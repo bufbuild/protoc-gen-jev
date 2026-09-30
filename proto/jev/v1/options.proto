@@ -1,0 +1,143 @@
+edition = "2024";
+
+// Preserve implicit presence except where explicitly enabled on a field.
+option features.field_presence = IMPLICIT;
+option features.default_symbol_visibility = EXPORT_ALL;
+
+// Field options for compiling Protocol Buffer definitions to TypeSafe AI's Jev cognitive model.
+//
+// By defining your data models and decision questions once in Protobuf, you get type-safe
+// decisions directly from Jev. Instead of hand-crafting schema payloads and parsing untyped JSON,
+// you can define your decision schemas in Protobuf and consume strongly typed results seamlessly
+// across Go, TypeScript, and Python using their native generated types.
+//
+// Jev is a non-autoregressive "System One" cognitive AI model developed by TypeSafe AI
+// (https://typesafe.ai) designed for fast, structured classification and evaluation rather
+// than generative text output. Inspired by Daniel Kahneman's dual-process cognitive theory
+// ("Thinking, Fast and Slow"), Jev evaluates multiple structured questions in parallel against
+// an unstructured input state via Jev System One.
+//
+// These options annotate Protobuf messages to specify how fields map to Jev's three core primitives:
+//   - Choice: Discrete selection among predefined criteria (mapped to enums, oneofs, or string whitelists).
+//   - Score:  Numerical evaluation against an ordered scale or rubric (mapped to floats or ints).
+//   - Noul:   Binary yes/no classification returning truth probability (mapped to booleans).
+//
+// For details on TypeSafe AI and Jev System One architecture:
+//   - TypeSafe AI: https://typesafe.ai
+//   - Documentation: https://docs.typesafe.ai
+package jev.v1;
+
+import "google/protobuf/descriptor.proto";
+
+option go_package = "github.com/sudorandom/protoc-gen-jev/pkg/jev/v1;jevv1";
+
+extend google.protobuf.FieldOptions {
+  // Annotation extending Protobuf field definitions with Jev evaluation directives.
+  FieldOptions field = 72341;
+}
+
+extend google.protobuf.ServiceOptions {
+  // Annotation extending Protobuf service definitions with Jev evaluation directives.
+  ServiceOptions service = 72342;
+}
+
+extend google.protobuf.MethodOptions {
+  // Annotation extending Protobuf method definitions with Jev evaluation directives.
+  MethodOptions method = 72343;
+}
+
+// ServiceOptions specifies how an entire Protobuf service is processed by Jev.
+message ServiceOptions {
+  // Controls Jev code generation for this service.
+  //   - unset (default): Auto-discovers Jev RPCs if request/response types use (jev.v1.field) options.
+  //   - true: Force-enables all RPCs in this service as Jev decision services (enables natural type mappings).
+  //   - false: Explicitly skips this service during code generation.
+  bool enabled = 1 [features.field_presence = EXPLICIT];
+}
+
+// MethodOptions specifies how an individual RPC method is processed by Jev.
+message MethodOptions {
+  // Controls Jev code generation for this RPC method.
+  //   - unset (default): Auto-discovers if request/response types use (jev.v1.field) options.
+  //   - true: Force-enables this RPC as a Jev decision RPC (enables natural type mappings).
+  //   - false: Explicitly skips this RPC during code generation.
+  bool enabled = 1 [features.field_presence = EXPLICIT];
+}
+
+// FieldOptions specifies how an individual Protobuf field is evaluated by Jev System One.
+//
+// See: https://docs.typesafe.ai (TypeSafe AI Jev Concept Overview)
+message FieldOptions {
+  // Explicit prompt instructions for Jev when evaluating this question.
+  //
+  // Jev uses these instructions as natural language guidance for the cognitive evaluation.
+  // If omitted, the field's leading Protobuf doc comment is used as the instructions.
+  //
+  // See: https://docs.typesafe.ai/primitives (Question Instructions)
+  string instructions = 1;
+
+  // If true, Jev skips this field entirely during question generation.
+  // Useful for fields populated by downstream systems, entity IDs, or freeform text.
+  bool skip = 2;
+
+  // Configuration rules for a [Jev Choice primitive](https://docs.typesafe.ai/primitives/choice) question.
+  //
+  // A Choice question selects exactly one option from a discrete set of candidates
+  // (up to 255 options) and returns the chosen value with associated confidence probabilities.
+  ChoiceRules choice = 3;
+
+  // Configuration rules for a [Jev Score primitive](https://docs.typesafe.ai/primitives/score) question.
+  //
+  // A Score question rates the input state against an ordered numerical rubric scale
+  // and returns a probability-weighted score.
+  ScoreRules score = 4;
+
+  // Configuration rules for a [Jev Noul primitive](https://docs.typesafe.ai/primitives/noul) question.
+  //
+  // A Noul question performs binary yes/no classification, evaluating whether a statement
+  // or condition holds true based on the provided instructions, returning a calibrated probability.
+  NoulRules noul = 5;
+}
+
+// ChoiceRules configures a Jev Choice question (discrete categorical classification).
+message ChoiceRules {
+  // Explicit whitelist of allowed choice values for string or enum fields.
+  // When set on an enum, only listed enum values will be included in the Jev choice criteria.
+  repeated string choices = 1;
+
+  // Blacklist of enum value names to exclude from Jev choice criteria (e.g. legacy or internal variants).
+  repeated string not_in = 2;
+
+  // [Rubric or descriptive guidance](https://docs.typesafe.ai/primitives) mapped to specific choice options (label -> description).
+  map<string, string> criteria = 3;
+}
+
+// ScoreLevel defines a discrete point or tier on an evaluation rubric.
+message ScoreLevel {
+  // Target numerical domain value (e.g. 1.0, 5.0, 100.0).
+  double value = 1;
+
+  // Semantic description or rubric guidance passed to Jev for this level.
+  string description = 2;
+}
+
+// ScoreRules configures a Jev Score question (numerical scale / rubric evaluation).
+//
+// Models quantitative ratings and confidence assessments along an ordered scale.
+//
+// See: https://docs.typesafe.ai/primitives/score (Score Question Specification)
+message ScoreRules {
+  // Explicit ordered rubric levels with domain values and descriptions.
+  repeated ScoreLevel levels = 1;
+}
+
+// NoulRules configures a Jev Noul question (binary yes/no condition classification).
+//
+// Models binary boolean assertions, risk flags, and safety gates.
+//
+// See: https://docs.typesafe.ai/primitives/noul (Noul Question Specification)
+message NoulRules {
+  // Confidence threshold [0.0 - 1.0] required for the condition to evaluate as true.
+  // Default is 0.5.
+  float threshold = 1 [features.field_presence = EXPLICIT];
+}

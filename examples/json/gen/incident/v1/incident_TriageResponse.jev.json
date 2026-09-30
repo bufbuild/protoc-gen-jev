@@ -1,0 +1,159 @@
+{
+  "message_name": "TriageResponse",
+  "package": "incident.v1",
+  "file_base": "incident",
+  "questions": {
+    "blastRadiusPercentage": {
+      "type": "Score",
+      "instructions": "Estimated percentage of production infrastructure impacted",
+      "criteria": [
+        "No impact",
+        "Limited localized impact",
+        "Moderate impact; several services affected",
+        "Substantial impact; major degradation",
+        "Catastrophic outage; total failure"
+      ],
+      "score_levels": [
+        {
+          "value": 0,
+          "description": "No impact"
+        },
+        {
+          "value": 25,
+          "description": "Limited localized impact"
+        },
+        {
+          "value": 50,
+          "description": "Moderate impact; several services affected"
+        },
+        {
+          "value": 75,
+          "description": "Substantial impact; major degradation"
+        },
+        {
+          "value": 100,
+          "description": "Catastrophic outage; total failure"
+        }
+      ],
+      "proto_field": "blast_radius_percentage",
+      "json_field": "blastRadiusPercentage",
+      "go_field": "BlastRadiusPercentage",
+      "py_field": "blast_radius_percentage",
+      "field_type": "float32"
+    },
+    "complianceClassification": {
+      "type": "Choice",
+      "instructions": "Categorize any sensitive or regulated data exposed in the incident report",
+      "criteria": {
+        "INTERNAL_CONFIDENTIAL": "",
+        "PCI_DSS": "",
+        "PUBLIC": "",
+        "RESTRICTED_PII": ""
+      },
+      "proto_field": "compliance_classification",
+      "json_field": "complianceClassification",
+      "go_field": "ComplianceClassification",
+      "py_field": "compliance_classification",
+      "field_type": "string"
+    },
+    "priority": {
+      "type": "Choice",
+      "instructions": "Assess the operational severity and customer blast radius",
+      "criteria": {
+        "PRIORITY_LEVEL_CRITICAL": "Complete service outage affecting \u003e10% of traffic",
+        "PRIORITY_LEVEL_HIGH": "Significant latency spike or core feature degradation",
+        "PRIORITY_LEVEL_LOW": "Minor cosmetic or non-customer-impacting bug",
+        "PRIORITY_LEVEL_MEDIUM": "Isolated component failure with working fallback"
+      },
+      "proto_field": "priority",
+      "json_field": "priority",
+      "go_field": "Priority",
+      "py_field": "priority",
+      "field_type": "enum",
+      "is_enum": true,
+      "enum_type_name": "PriorityLevel"
+    },
+    "requiresImmediatePaging": {
+      "type": "Noul",
+      "instructions": "Does this incident indicate active user-facing outage requiring paging?",
+      "threshold": 0.8500000238418579,
+      "proto_field": "requires_immediate_paging",
+      "json_field": "requiresImmediatePaging",
+      "go_field": "RequiresImmediatePaging",
+      "py_field": "requires_immediate_paging",
+      "field_type": "bool"
+    },
+    "routing_target": {
+      "type": "Choice",
+      "instructions": "1. Oneof mutual exclusion -\u003e Jev Choice question Jev selects the single most appropriate routing target based on input context.",
+      "criteria": {
+        "automated_runbook": "automated_runbook",
+        "incident_commander": "incident_commander",
+        "oncall_engineer": "oncall_engineer"
+      },
+      "proto_field": "routing_target",
+      "json_field": "routing_target",
+      "go_field": "RoutingTarget",
+      "py_field": "routing_target",
+      "field_type": "oneof",
+      "is_oneof": true,
+      "oneof_name": "routing_target",
+      "oneof_cases": {
+        "automated_runbook": "AutomatedRunbook",
+        "incident_commander": "IncidentCommander",
+        "oncall_engineer": "OncallEngineer"
+      },
+      "oneof_case_kinds": {
+        "automated_runbook": "string",
+        "incident_commander": "string",
+        "oncall_engineer": "string"
+      }
+    },
+    "urgencyRating": {
+      "type": "Score",
+      "instructions": "How urgently does this issue need to be resolved?",
+      "criteria": [
+        "Minor; can wait",
+        "Low urgency",
+        "Needs attention soon",
+        "Urgent",
+        "Immediate action required"
+      ],
+      "score_levels": [
+        {
+          "value": 1,
+          "description": "Minor; can wait"
+        },
+        {
+          "value": 2,
+          "description": "Low urgency"
+        },
+        {
+          "value": 3,
+          "description": "Needs attention soon"
+        },
+        {
+          "value": 4,
+          "description": "Urgent"
+        },
+        {
+          "value": 5,
+          "description": "Immediate action required"
+        }
+      ],
+      "proto_field": "urgency_rating",
+      "json_field": "urgencyRating",
+      "go_field": "UrgencyRating",
+      "py_field": "urgency_rating",
+      "field_type": "int32"
+    }
+  },
+  "order": [
+    "routing_target",
+    "requiresImmediatePaging",
+    "priority",
+    "urgencyRating",
+    "blastRadiusPercentage",
+    "complianceClassification"
+  ]
+}

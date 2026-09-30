@@ -1,0 +1,10 @@
+# Generate JSON specifications for the example schema.
+version: v2
+clean: true
+inputs:
+  - directory: proto
+plugins:
+  - local: protoc-gen-jev
+    out: gen
+    opt:
+      - targets=json

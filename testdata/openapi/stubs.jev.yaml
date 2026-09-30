@@ -1,0 +1,72 @@
+stubs:
+  - name: Default Jev System One Incident Response
+    target:
+      operationId: systemOne
+    response:
+      status: 200
+      headers:
+        Content-Type: application/json
+      body:
+        model: jev-latest
+        usage:
+          input_tokens: 42
+          output_tokens: 6
+        answers:
+          routing_target:
+            type: choice
+            choice: oncall_engineer
+            confidence: 0.88
+            probabilities:
+              oncall_engineer: 0.88
+              automated_runbook: 0.08
+              incident_commander: 0.04
+          requiresImmediatePaging:
+            type: noul
+            noul: 0.92
+          priority:
+            type: choice
+            choice: PRIORITY_LEVEL_HIGH
+            confidence: 0.75
+            probabilities:
+              PRIORITY_LEVEL_HIGH: 0.75
+              PRIORITY_LEVEL_CRITICAL: 0.20
+              PRIORITY_LEVEL_MEDIUM: 0.05
+          urgencyRating:
+            type: score
+            score: 3.0
+            confidence: 0.75
+            legend:
+              "0": "Minor; can wait"
+              "1": "Low urgency"
+              "2": "Needs attention soon"
+              "3": "Urgent"
+              "4": "Immediate action required"
+            probabilities:
+              "0": 0.0
+              "1": 0.0
+              "2": 0.0
+              "3": 1.0
+              "4": 0.0
+          blastRadiusPercentage:
+            type: score
+            score: 1.8
+            confidence: 0.65
+            legend:
+              "0": "No impact"
+              "1": "Limited localized impact"
+              "2": "Moderate impact; several services affected"
+              "3": "Substantial impact; major degradation"
+              "4": "Catastrophic outage; total failure"
+            probabilities:
+              "0": 0.0
+              "1": 0.2
+              "2": 0.8
+              "3": 0.0
+              "4": 0.0
+          complianceClassification:
+            type: choice
+            choice: INTERNAL_CONFIDENTIAL
+            confidence: 0.95
+            probabilities:
+              INTERNAL_CONFIDENTIAL: 0.95
+              PUBLIC: 0.05

@@ -1,0 +1,213 @@
+{
+  "message_name": "ComprehensiveRecord",
+  "package": "ai.comprehensive.v1",
+  "file_base": "comprehensive",
+  "questions": {
+    "accountTier": {
+      "type": "Choice",
+      "instructions": "Discrete string choices via Jev options",
+      "criteria": {
+        "TIER_ENTERPRISE": "",
+        "TIER_PREMIUM": "",
+        "TIER_STANDARD": ""
+      },
+      "proto_field": "account_tier",
+      "json_field": "accountTier",
+      "go_field": "AccountTier",
+      "py_field": "account_tier",
+      "field_type": "string"
+    },
+    "bigCount": {
+      "type": "Score",
+      "instructions": "Evaluate bigCount",
+      "criteria": [
+        "Very low extent or intensity",
+        "Low extent or intensity",
+        "Moderate extent or intensity",
+        "High extent or intensity",
+        "Very high extent or intensity"
+      ],
+      "score_levels": [
+        {
+          "value": 1,
+          "description": "Very low extent or intensity"
+        },
+        {
+          "value": 2,
+          "description": "Low extent or intensity"
+        },
+        {
+          "value": 3,
+          "description": "Moderate extent or intensity"
+        },
+        {
+          "value": 4,
+          "description": "High extent or intensity"
+        },
+        {
+          "value": 5,
+          "description": "Very high extent or intensity"
+        }
+      ],
+      "proto_field": "big_count",
+      "json_field": "bigCount",
+      "go_field": "BigCount",
+      "py_field": "big_count",
+      "field_type": "int64"
+    },
+    "churnRisk": {
+      "type": "Noul",
+      "instructions": "Custom Jev instruction: assess customer cancellation intent",
+      "threshold": 0.5,
+      "proto_field": "churn_risk",
+      "json_field": "churnRisk",
+      "go_field": "ChurnRisk",
+      "py_field": "churn_risk",
+      "field_type": "bool"
+    },
+    "isEnabled": {
+      "type": "Noul",
+      "instructions": "--- Boolean \u0026 Enum ---",
+      "threshold": 0.5,
+      "proto_field": "is_enabled",
+      "json_field": "isEnabled",
+      "go_field": "IsEnabled",
+      "py_field": "is_enabled",
+      "field_type": "bool"
+    },
+    "latitude": {
+      "type": "Score",
+      "instructions": "Evaluate latitude",
+      "criteria": [
+        "South Pole",
+        "Equator",
+        "North Pole"
+      ],
+      "score_levels": [
+        {
+          "value": -90,
+          "description": "South Pole"
+        },
+        {
+          "value": 0,
+          "description": "Equator"
+        },
+        {
+          "value": 90,
+          "description": "North Pole"
+        }
+      ],
+      "proto_field": "latitude",
+      "json_field": "latitude",
+      "go_field": "Latitude",
+      "py_field": "latitude",
+      "field_type": "float64"
+    },
+    "payload": {
+      "type": "Choice",
+      "instructions": "--- Oneof ---",
+      "criteria": {
+        "binary_payload": "binary_payload",
+        "text_payload": "text_payload"
+      },
+      "proto_field": "payload",
+      "json_field": "payload",
+      "go_field": "Payload",
+      "py_field": "payload",
+      "field_type": "oneof",
+      "is_oneof": true,
+      "oneof_name": "payload",
+      "oneof_cases": {
+        "binary_payload": "BinaryPayload",
+        "text_payload": "TextPayload"
+      },
+      "oneof_case_kinds": {
+        "binary_payload": "bytes",
+        "text_payload": "string"
+      }
+    },
+    "ratio": {
+      "type": "Score",
+      "instructions": "Evaluate ratio",
+      "criteria": [
+        "Zero ratio",
+        "Half ratio",
+        "Full ratio"
+      ],
+      "score_levels": [
+        {
+          "value": 0,
+          "description": "Zero ratio"
+        },
+        {
+          "value": 0.5,
+          "description": "Half ratio"
+        },
+        {
+          "value": 1,
+          "description": "Full ratio"
+        }
+      ],
+      "proto_field": "ratio",
+      "json_field": "ratio",
+      "go_field": "Ratio",
+      "py_field": "ratio",
+      "field_type": "float32"
+    },
+    "scoreInt": {
+      "type": "Score",
+      "instructions": "--- Numeric validation variants ---",
+      "criteria": [
+        "Minimum score",
+        "Average score",
+        "Maximum score"
+      ],
+      "score_levels": [
+        {
+          "value": 1,
+          "description": "Minimum score"
+        },
+        {
+          "value": 50,
+          "description": "Average score"
+        },
+        {
+          "value": 100,
+          "description": "Maximum score"
+        }
+      ],
+      "proto_field": "score_int",
+      "json_field": "scoreInt",
+      "go_field": "ScoreInt",
+      "py_field": "score_int",
+      "field_type": "int32"
+    },
+    "status": {
+      "type": "Choice",
+      "instructions": "Evaluate status",
+      "criteria": {
+        "STATUS_ACTIVE": "",
+        "STATUS_ARCHIVED": "",
+        "STATUS_PAUSED": ""
+      },
+      "proto_field": "status",
+      "json_field": "status",
+      "go_field": "Status",
+      "py_field": "status",
+      "field_type": "enum",
+      "is_enum": true,
+      "enum_type_name": "Status"
+    }
+  },
+  "order": [
+    "scoreInt",
+    "bigCount",
+    "ratio",
+    "latitude",
+    "isEnabled",
+    "status",
+    "payload",
+    "churnRisk",
+    "accountTier"
+  ]
+}

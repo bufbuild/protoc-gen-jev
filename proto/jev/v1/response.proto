@@ -1,0 +1,74 @@
+edition = "2024";
+
+// Preserve implicit presence except where explicitly enabled on a field.
+option features.field_presence = IMPLICIT;
+option features.default_symbol_visibility = EXPORT_ALL;
+
+package jev.v1;
+
+option go_package = "github.com/sudorandom/protoc-gen-jev/pkg/jev/v1;jevv1";
+
+// Meta reports execution metadata from the Jev provider.
+message Meta {
+  string model = 1;
+  Usage usage = 2;
+}
+
+// Usage reports token metrics from the provider.
+message Usage {
+  int32 input_tokens = 1;
+  int32 output_tokens = 2;
+}
+
+// Noul encapsulates a binary decision along with its calibrated probability and confidence.
+message Noul {
+  bool value = 1;                 // Evaluated decision (probability >= threshold)
+  double probability = 2;         // Raw evaluated probability (0.0 - 1.0)
+  double confidence = 3 [features.field_presence = EXPLICIT]; // Confidence score (0.0 - 1.0)
+}
+
+// Score encapsulates a numerical or rubric evaluation along with position and distributions.
+message Score {
+  double value = 1;                      // Interpolated domain value (e.g. 3.5, or rounded int)
+  double score = 2;                      // Raw position along rubric levels (e.g. 1.4)
+  double confidence = 3 [features.field_presence = EXPLICIT];        // Confidence score (0.0 - 1.0)
+  map<string, double> probabilities = 4; // Probability distribution across rubric levels
+  map<string, string> legend = 5;        // Rubric level descriptions
+}
+
+// Choice encapsulates a categorical decision along with confidence and distributions.
+message Choice {
+  string value = 1;                      // Selected choice label (or enum name)
+  double confidence = 2 [features.field_presence = EXPLICIT];        // Confidence score (0.0 - 1.0)
+  map<string, double> probabilities = 3; // Probability distribution over choices
+}
+
+// WireResponse models the raw JSON envelope returned by Jev over HTTP.
+message WireResponse {
+  string model = 1;
+  Usage usage = 2;
+  map<string, Answer> answers = 3;
+  map<string, Answer> choices = 4;
+  map<string, Answer> scores = 5;
+  map<string, Answer> nouls = 6;
+}
+
+// Answer encapsulates the provider's evaluation for a single question.
+message Answer {
+  string type = 1;                       // "choice", "noul", "score"
+  string choice = 2;                     // Selected label if choice
+  double noul = 3 [features.field_presence = EXPLICIT];              // Evaluated probability (0.0 - 1.0)
+  double score = 4 [features.field_presence = EXPLICIT];             // Continuous score index
+  double confidence = 5 [features.field_presence = EXPLICIT];        // Confidence level (0.0 - 1.0)
+  map<string, double> probabilities = 6; // Probability distribution
+  map<string, string> legend = 7;        // Score rubric descriptions
+}
+
+// Response contains the provider evaluation metadata and answers.
+// Placing a field of this type on a decision response message causes protoc-gen-jev
+// to automatically populate it with the full model execution details.
+message Response {
+  string model = 1;
+  Usage usage = 2;
+  map<string, Answer> answers = 3;
+}

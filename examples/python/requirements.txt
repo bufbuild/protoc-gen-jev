@@ -1,0 +1,2 @@
+typesafe-sdk==0.7.1
+protobuf-py==0.5.0

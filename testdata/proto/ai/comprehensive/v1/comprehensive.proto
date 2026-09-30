@@ -1,0 +1,108 @@
+edition = "2024";
+
+// Preserve implicit presence except where explicitly enabled on a field.
+option features.field_presence = IMPLICIT;
+option features.default_symbol_visibility = EXPORT_ALL;
+option features.(pb.go).api_level = API_OPEN;
+
+package ai.comprehensive.v1;
+
+option go_package = "ai/comprehensive/v1;comprehensivev1";
+
+import "jev/v1/options.proto";
+import "google/protobuf/go_features.proto";
+
+// An enum demonstrating valid options.
+enum Status {
+  STATUS_UNSPECIFIED = 0;
+  STATUS_ACTIVE = 1;
+  STATUS_PAUSED = 2;
+  STATUS_ARCHIVED = 3;
+}
+
+// A nested message for testing object properties.
+message Metadata {
+  string source = 1;
+  int32 version = 2;
+}
+
+// Comprehensive test message exercising every option and rule combination.
+message ComprehensiveRecord {
+  // --- String validation variants ---
+  string text_bounded = 1;
+  string email_address = 2;
+  string website_url = 3;
+  string custom_pattern = 4;
+  string prefixed_code = 5;
+
+  // --- Numeric validation variants ---
+  int32 score_int = 6 [
+    (jev.v1.field).score = {
+      levels: [
+        { value: 1, description: "Minimum score" },
+        { value: 50, description: "Average score" },
+        { value: 100, description: "Maximum score" }
+      ]
+    }
+  ];
+
+  int64 big_count = 7;
+
+  float ratio = 8 [
+    (jev.v1.field).score = {
+      levels: [
+        { value: 0.0, description: "Zero ratio" },
+        { value: 0.5, description: "Half ratio" },
+        { value: 1.0, description: "Full ratio" }
+      ]
+    }
+  ];
+
+  double latitude = 9 [
+    (jev.v1.field).score = {
+      levels: [
+        { value: -90.0, description: "South Pole" },
+        { value: 0.0, description: "Equator" },
+        { value: 90.0, description: "North Pole" }
+      ]
+    }
+  ];
+
+  // --- Boolean & Enum ---
+  bool is_enabled = 10;
+  Status status = 11;
+
+  // --- Repeated / Arrays ---
+  repeated string tags = 12;
+
+  // --- Nested message ---
+  Metadata metadata = 13;
+
+  // --- Optional field ---
+  string notes = 14 [features.field_presence = EXPLICIT];
+
+  // --- Map ---
+  map<string, string> attributes = 15;
+
+  // --- Oneof ---
+  oneof payload {
+    string text_payload = 16;
+    bytes binary_payload = 17;
+  }
+
+  // --- Jev custom options testing ---
+  bool churn_risk = 18 [
+    (jev.v1.field).instructions = "Custom Jev instruction: assess customer cancellation intent"
+  ];
+
+  string internal_debug_info = 19 [
+    (jev.v1.field).skip = true
+  ];
+
+  // Discrete string choices via Jev options
+  string account_tier = 20 [
+    (jev.v1.field).choice = {
+      choices: ["TIER_STANDARD", "TIER_PREMIUM", "TIER_ENTERPRISE"]
+    }
+  ];
+}

@@ -1,0 +1,17 @@
+# Generate Go and Jev clients for the example schema.
+version: v2
+clean: true
+inputs:
+  - directory: ../..
+    paths:
+      - ../../examples/go/proto/incident/v1/incident.proto
+plugins:
+  - local: protoc-gen-go
+    out: gen
+    opt:
+      - paths=source_relative
+  - local: protoc-gen-jev
+    out: gen
+    opt:
+      - targets=go
+      - paths=source_relative

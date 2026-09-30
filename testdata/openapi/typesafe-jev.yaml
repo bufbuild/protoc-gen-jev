@@ -1,0 +1,118 @@
+openapi: 3.0.3
+info:
+  title: TypeSafe Jev contract fixture
+  description: Canonical System One wire contract used by local tests. Not an authoritative upstream schema.
+  version: 1.0.0
+servers:
+  - url: /
+paths:
+  /v1/systemone:
+    post:
+      operationId: systemOne
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [state, model, questions]
+              properties:
+                state:
+                  oneOf:
+                    - type: string
+                    - type: object
+                    - type: array
+                      items: {}
+                model:
+                  type: string
+                questions:
+                  type: object
+                  additionalProperties:
+                    $ref: '#/components/schemas/Question'
+      responses:
+        '200':
+          description: One typed answer for every requested question
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [model, usage, answers]
+                properties:
+                  model:
+                    type: string
+                  usage:
+                    type: object
+                    properties:
+                      input_tokens: {type: integer}
+                      output_tokens: {type: integer}
+                  answers:
+                    type: object
+                    additionalProperties:
+                      oneOf:
+                        - $ref: '#/components/schemas/ChoiceAnswer'
+                        - $ref: '#/components/schemas/NoulAnswer'
+                        - $ref: '#/components/schemas/ScoreAnswer'
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+  schemas:
+    Question:
+      oneOf:
+        - type: object
+          required: [type, instructions, criteria]
+          properties:
+            type: {type: string, enum: [choice]}
+            instructions: {type: string}
+            criteria:
+              type: object
+              minProperties: 1
+              maxProperties: 255
+              additionalProperties: {type: string}
+        - type: object
+          required: [type, instructions, criteria]
+          properties:
+            type: {type: string, enum: [score]}
+            instructions: {type: string}
+            criteria:
+              type: array
+              minItems: 2
+              maxItems: 10
+              items: {type: string}
+        - type: object
+          required: [type, instructions]
+          properties:
+            type: {type: string, enum: [noul]}
+            instructions: {type: string}
+    ChoiceAnswer:
+      type: object
+      required: [type, choice, probabilities, confidence]
+      properties:
+        type: {type: string, enum: [choice]}
+        choice: {type: string}
+        confidence: {type: number, minimum: 0, maximum: 1}
+        probabilities:
+          type: object
+          additionalProperties: {type: number, minimum: 0, maximum: 1}
+    NoulAnswer:
+      type: object
+      required: [type, noul]
+      properties:
+        type: {type: string, enum: [noul]}
+        noul: {type: number, minimum: 0, maximum: 1}
+    ScoreAnswer:
+      type: object
+      required: [type, score, probabilities, confidence, legend]
+      properties:
+        type: {type: string, enum: [score]}
+        score: {type: number, minimum: 0}
+        confidence: {type: number, minimum: 0, maximum: 1}
+        probabilities:
+          type: object
+          additionalProperties: {type: number, minimum: 0, maximum: 1}
+        legend:
+          type: object
+          additionalProperties: {type: string}

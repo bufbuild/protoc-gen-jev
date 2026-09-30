@@ -1,0 +1,18 @@
+# Generate Python and Jev clients for the example schema.
+version: v2
+clean: true
+inputs:
+  # Share the incident schema and local detailed-response types with Go.
+  - directory: ../..
+    paths:
+      - ../../examples/go/proto/incident/v1/incident.proto
+      - ../../proto/jev/v1/response.proto
+plugins:
+  - remote: buf.build/bufbuild/py:v0.5.0
+    exclude_types: [jev.v1.field, jev.v1.service, jev.v1.method]
+    out: gen/jev
+  - local: protoc-gen-jev
+    out: gen/jev
+    opt:
+      - targets=python
+      - paths=source_relative
