@@ -1,0 +1,110 @@
+edition = "2024";
+
+// Preserve implicit presence except where explicitly enabled on a field.
+option features.field_presence = IMPLICIT;
+option features.default_symbol_visibility = EXPORT_ALL;
+
+package incident.v1;
+
+option go_package = "incident/v1;incidentv1";
+
+import "jev/v1/options.proto";
+
+enum PriorityLevel {
+  PRIORITY_LEVEL_UNSPECIFIED = 0;
+  PRIORITY_LEVEL_LOW = 1;
+  PRIORITY_LEVEL_MEDIUM = 2;
+  PRIORITY_LEVEL_HIGH = 3;
+  PRIORITY_LEVEL_CRITICAL = 4;
+}
+
+message TriageResponse {
+  // 1. Oneof mutual exclusion -> Jev Choice question
+  // Jev selects the single most appropriate routing target based on input context.
+  oneof routing_target {
+    string automated_runbook = 1;
+    string oncall_engineer = 2;
+    string incident_commander = 3;
+  }
+
+  // 2. Boolean field -> Jev Noul question
+  // Evaluates binary intent with a calibrated confidence threshold (0.0 - 1.0).
+  bool requires_immediate_paging = 4 [
+    (jev.v1.field).instructions = "Does this incident indicate active user-facing outage requiring paging?",
+    (jev.v1.field).noul = { threshold: 0.85 }
+  ];
+
+  // 3. Enum field with criteria guidance -> Jev Choice question
+  PriorityLevel priority = 5 [
+    (jev.v1.field).instructions = "Assess the operational severity and customer blast radius",
+    (jev.v1.field).choice = {
+      criteria: {
+        key: "PRIORITY_LEVEL_CRITICAL",
+        value: "Complete service outage affecting >10% of traffic"
+      },
+      criteria: {
+        key: "PRIORITY_LEVEL_HIGH",
+        value: "Significant latency spike or core feature degradation"
+      },
+      criteria: {
+        key: "PRIORITY_LEVEL_MEDIUM",
+        value: "Isolated component failure with working fallback"
+      },
+      criteria: {
+        key: "PRIORITY_LEVEL_LOW",
+        value: "Minor cosmetic or non-customer-impacting bug"
+      }
+    }
+  ];
+
+  // 4. Bounded integer range -> Jev Score with explicit rubric levels
+  int32 urgency_rating = 6 [
+    (jev.v1.field).instructions = "How urgently does this issue need to be resolved?",
+    (jev.v1.field).score = {
+      levels: [
+        { value: 1, description: "Minor; can wait" },
+        { value: 2, description: "Low urgency" },
+        { value: 3, description: "Needs attention soon" },
+        { value: 4, description: "Urgent" },
+        { value: 5, description: "Immediate action required" }
+      ]
+    }
+  ];
+
+  // 5. Continuous numeric scale -> Jev Score with explicit rubric tiers
+  float blast_radius_percentage = 7 [
+    (jev.v1.field).instructions = "Estimated percentage of production infrastructure impacted",
+    (jev.v1.field).score = {
+      levels: [
+        { value: 0.0, description: "No impact" },
+        { value: 25.0, description: "Limited localized impact" },
+        { value: 50.0, description: "Moderate impact; several services affected" },
+        { value: 75.0, description: "Substantial impact; major degradation" },
+        { value: 100.0, description: "Catastrophic outage; total failure" }
+      ]
+    }
+  ];
+
+  // 6. String with discrete allowed choices -> Jev Choice question
+  string compliance_classification = 8 [
+    (jev.v1.field).instructions = "Categorize any sensitive or regulated data exposed in the incident report",
+    (jev.v1.field).choice = {
+      choices: ["PUBLIC", "INTERNAL_CONFIDENTIAL", "RESTRICTED_PII", "PCI_DSS"]
+    }
+  ];
+}
+
+// Request context describing an incident to be triaged by Jev.
+message TriageRequest {
+  string incident_id = 1;
+  string title = 2;
+  string description = 3;
+  string raw_logs = 4;
+}
+
+// Service for AI-driven incident triage and routing via Jev.
+service IncidentTriageService {
+  // Evaluates an incident context and returns strongly-typed triage decisions.
+  rpc Triage(TriageRequest) returns (TriageResponse);
+}
+

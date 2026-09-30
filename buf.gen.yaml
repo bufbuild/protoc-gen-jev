@@ -1,0 +1,25 @@
+version: v2
+inputs:
+  - directory: testdata/proto
+plugins:
+  - local: protoc-gen-go
+    # Jev annotations are consumed by the Jev generator, not native clients.
+    exclude_types: [jev.v1]
+    out: gen/jev
+    opt:
+      - paths=source_relative
+  - local: protoc-gen-es
+    # Jev annotations are consumed by the Jev generator, not native clients.
+    exclude_types: [jev.v1]
+    out: gen/jev
+    opt:
+      - target=ts
+  - remote: buf.build/bufbuild/py:v0.5.0
+    # Jev annotations are consumed by the Jev generator, not native clients.
+    exclude_types: [jev.v1]
+    out: gen/jev
+  - local: ./protoc-gen-jev
+    out: gen/jev
+    opt:
+      - targets=all
+      - paths=source_relative

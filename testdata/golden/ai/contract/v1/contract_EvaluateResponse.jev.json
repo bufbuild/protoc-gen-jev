@@ -1,0 +1,327 @@
+{
+  "message_name": "EvaluateResponse",
+  "package": "ai.contract.v1",
+  "file_base": "contract",
+  "questions": {
+    "bigCount": {
+      "type": "Score",
+      "instructions": "Evaluate bigCount",
+      "criteria": [
+        "Very low extent or intensity",
+        "Low extent or intensity",
+        "Moderate extent or intensity",
+        "High extent or intensity",
+        "Very high extent or intensity"
+      ],
+      "score_levels": [
+        {
+          "value": 1,
+          "description": "Very low extent or intensity"
+        },
+        {
+          "value": 2,
+          "description": "Low extent or intensity"
+        },
+        {
+          "value": 3,
+          "description": "Moderate extent or intensity"
+        },
+        {
+          "value": 4,
+          "description": "High extent or intensity"
+        },
+        {
+          "value": 5,
+          "description": "Very high extent or intensity"
+        }
+      ],
+      "proto_field": "big_count",
+      "json_field": "bigCount",
+      "go_field": "BigCount",
+      "py_field": "big_count",
+      "field_type": "int64"
+    },
+    "bigUnsigned": {
+      "type": "Score",
+      "instructions": "Evaluate bigUnsigned",
+      "criteria": [
+        "Very low extent or intensity",
+        "Low extent or intensity",
+        "Moderate extent or intensity",
+        "High extent or intensity",
+        "Very high extent or intensity"
+      ],
+      "score_levels": [
+        {
+          "value": 1,
+          "description": "Very low extent or intensity"
+        },
+        {
+          "value": 2,
+          "description": "Low extent or intensity"
+        },
+        {
+          "value": 3,
+          "description": "Moderate extent or intensity"
+        },
+        {
+          "value": 4,
+          "description": "High extent or intensity"
+        },
+        {
+          "value": 5,
+          "description": "Very high extent or intensity"
+        }
+      ],
+      "proto_field": "big_unsigned",
+      "json_field": "bigUnsigned",
+      "go_field": "BigUnsigned",
+      "py_field": "big_unsigned",
+      "field_type": "uint64"
+    },
+    "boundary": {
+      "type": "Score",
+      "instructions": "Evaluate boundary",
+      "criteria": [
+        "Low",
+        "High"
+      ],
+      "score_levels": [
+        {
+          "value": 9007199254740990,
+          "description": "Low"
+        },
+        {
+          "value": 9007199254740991,
+          "description": "High"
+        }
+      ],
+      "proto_field": "boundary",
+      "json_field": "boundary",
+      "go_field": "Boundary",
+      "py_field": "boundary",
+      "field_type": "int64"
+    },
+    "count": {
+      "type": "Score",
+      "instructions": "Evaluate count",
+      "criteria": [
+        "Very low extent or intensity",
+        "Low extent or intensity",
+        "Moderate extent or intensity",
+        "High extent or intensity",
+        "Very high extent or intensity"
+      ],
+      "score_levels": [
+        {
+          "value": 1,
+          "description": "Very low extent or intensity"
+        },
+        {
+          "value": 2,
+          "description": "Low extent or intensity"
+        },
+        {
+          "value": 3,
+          "description": "Moderate extent or intensity"
+        },
+        {
+          "value": 4,
+          "description": "High extent or intensity"
+        },
+        {
+          "value": 5,
+          "description": "Very high extent or intensity"
+        }
+      ],
+      "proto_field": "count",
+      "json_field": "count",
+      "go_field": "Count",
+      "py_field": "count",
+      "field_type": "uint32"
+    },
+    "fixedCount": {
+      "type": "Score",
+      "instructions": "Evaluate fixedCount",
+      "criteria": [
+        "Very low extent or intensity",
+        "Low extent or intensity",
+        "Moderate extent or intensity",
+        "High extent or intensity",
+        "Very high extent or intensity"
+      ],
+      "score_levels": [
+        {
+          "value": 1,
+          "description": "Very low extent or intensity"
+        },
+        {
+          "value": 2,
+          "description": "Low extent or intensity"
+        },
+        {
+          "value": 3,
+          "description": "Moderate extent or intensity"
+        },
+        {
+          "value": 4,
+          "description": "High extent or intensity"
+        },
+        {
+          "value": 5,
+          "description": "Very high extent or intensity"
+        }
+      ],
+      "proto_field": "fixed_count",
+      "json_field": "fixedCount",
+      "go_field": "FixedCount",
+      "py_field": "fixed_count",
+      "field_type": "uint32"
+    },
+    "flag": {
+      "type": "Noul",
+      "instructions": "Evaluate flag",
+      "proto_field": "flag",
+      "json_field": "flag",
+      "go_field": "Flag",
+      "py_field": "flag",
+      "field_type": "bool"
+    },
+    "label": {
+      "type": "Choice",
+      "instructions": "Evaluate label",
+      "criteria": {
+        "NO": "",
+        "YES": ""
+      },
+      "proto_field": "label",
+      "json_field": "label",
+      "go_field": "Label",
+      "py_field": "label",
+      "field_type": "string"
+    },
+    "rating": {
+      "type": "Score",
+      "instructions": "Evaluate rating",
+      "criteria": [
+        "Low",
+        "High"
+      ],
+      "score_levels": [
+        {
+          "value": -3,
+          "description": "Low"
+        },
+        {
+          "value": -2,
+          "description": "High"
+        }
+      ],
+      "proto_field": "rating",
+      "json_field": "rating",
+      "go_field": "Rating",
+      "py_field": "rating",
+      "field_type": "int32"
+    },
+    "risk-flag": {
+      "type": "Noul",
+      "instructions": "Evaluate risk-flag",
+      "threshold": 0.5,
+      "proto_field": "risk",
+      "json_field": "risk-flag",
+      "go_field": "Risk",
+      "py_field": "risk",
+      "field_type": "bool"
+    },
+    "route": {
+      "type": "Choice",
+      "instructions": "Select route variant",
+      "criteria": {
+        "binary": "binary",
+        "email": "email"
+      },
+      "proto_field": "route",
+      "json_field": "route",
+      "go_field": "Route",
+      "py_field": "route",
+      "field_type": "oneof",
+      "is_oneof": true,
+      "oneof_name": "route",
+      "oneof_cases": {
+        "binary": "Binary",
+        "email": "Email"
+      },
+      "oneof_case_kinds": {
+        "binary": "bytes",
+        "email": "string"
+      }
+    },
+    "signedFixedCount": {
+      "type": "Score",
+      "instructions": "Evaluate signedFixedCount",
+      "criteria": [
+        "Very low extent or intensity",
+        "Low extent or intensity",
+        "Moderate extent or intensity",
+        "High extent or intensity",
+        "Very high extent or intensity"
+      ],
+      "score_levels": [
+        {
+          "value": 1,
+          "description": "Very low extent or intensity"
+        },
+        {
+          "value": 2,
+          "description": "Low extent or intensity"
+        },
+        {
+          "value": 3,
+          "description": "Moderate extent or intensity"
+        },
+        {
+          "value": 4,
+          "description": "High extent or intensity"
+        },
+        {
+          "value": 5,
+          "description": "Very high extent or intensity"
+        }
+      ],
+      "proto_field": "signed_fixed_count",
+      "json_field": "signedFixedCount",
+      "go_field": "SignedFixedCount",
+      "py_field": "signed_fixed_count",
+      "field_type": "int64"
+    },
+    "status": {
+      "type": "Choice",
+      "instructions": "Evaluate status",
+      "criteria": {
+        "STATUS_BLOCKED": "",
+        "STATUS_READY": ""
+      },
+      "proto_field": "status",
+      "json_field": "status",
+      "go_field": "Status",
+      "py_field": "status",
+      "field_type": "enum",
+      "is_enum": true,
+      "enum_type_name": "Status"
+    }
+  },
+  "order": [
+    "flag",
+    "rating",
+    "count",
+    "bigCount",
+    "bigUnsigned",
+    "fixedCount",
+    "signedFixedCount",
+    "risk-flag",
+    "status",
+    "label",
+    "boundary",
+    "route"
+  ]
+}

@@ -1,0 +1,24 @@
+# Binaries
+/protoc-gen-jev
+*.exe
+*.test
+
+# Generated files during local dev / test runs
+/gen/
+node_modules/
+__pycache__/
+*.pyc
+.venv/
+.venv-laya/
+
+# Local mise configuration overrides
+mise.local.toml
+.mise.local.toml
+
+# OS artifacts
+.DS_Store
+
+
+# Local static-analysis cache and live evaluation output
+.mypy_cache/
+/evaluation.json

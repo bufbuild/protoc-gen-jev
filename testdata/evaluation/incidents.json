@@ -1,0 +1,28 @@
+[
+  {
+    "id": "routine-maintenance",
+    "request": {
+      "incidentId": "EVAL-1",
+      "title": "Routine maintenance completed",
+      "description": "Scheduled compaction finished successfully. All services are healthy. No customer impact and no sensitive data were exposed."
+    },
+    "expected": {
+      "requiresImmediatePaging": false,
+      "priority": "PRIORITY_LEVEL_LOW",
+      "complianceClassification": "PUBLIC"
+    }
+  },
+  {
+    "id": "complete-outage",
+    "request": {
+      "incidentId": "EVAL-2",
+      "title": "Complete production outage",
+      "description": "All regions are unavailable. Every customer request fails. No workaround exists. Immediate paging is required. No sensitive data were exposed."
+    },
+    "expected": {
+      "requiresImmediatePaging": true,
+      "priority": "PRIORITY_LEVEL_CRITICAL",
+      "complianceClassification": "PUBLIC"
+    }
+  }
+]

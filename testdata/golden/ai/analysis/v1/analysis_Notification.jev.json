@@ -1,0 +1,36 @@
+{
+  "message_name": "Notification",
+  "package": "ai.analysis.v1",
+  "file_base": "analysis",
+  "questions": {
+    "channel": {
+      "type": "Choice",
+      "instructions": "Select channel variant",
+      "criteria": {
+        "email": "email",
+        "slack_channel": "slack_channel",
+        "webhook_url": "webhook_url"
+      },
+      "proto_field": "channel",
+      "json_field": "channel",
+      "go_field": "Channel",
+      "py_field": "channel",
+      "field_type": "oneof",
+      "is_oneof": true,
+      "oneof_name": "channel",
+      "oneof_cases": {
+        "email": "Email",
+        "slack_channel": "SlackChannel",
+        "webhook_url": "WebhookUrl"
+      },
+      "oneof_case_kinds": {
+        "email": "string",
+        "slack_channel": "string",
+        "webhook_url": "string"
+      }
+    }
+  },
+  "order": [
+    "channel"
+  ]
+}

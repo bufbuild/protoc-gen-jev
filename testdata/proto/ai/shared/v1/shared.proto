@@ -1,0 +1,23 @@
+edition = "2024";
+
+// Preserve implicit presence except where explicitly enabled on a field.
+option features.field_presence = IMPLICIT;
+option features.default_symbol_visibility = EXPORT_ALL;
+option features.(pb.go).api_level = API_OPEN;
+package ai.shared.v1;
+import "google/protobuf/go_features.proto";
+option go_package = "github.com/bufbuild/protoc-gen-jev/gen/jev/ai/shared/v1;sharedv1";
+
+enum Status {
+  STATUS_UNSPECIFIED = 0;
+  STATUS_READY = 1;
+  STATUS_BLOCKED = 2;
+}
+
+message ExternalRequest {
+  string input_text = 1;
+}
+
+message ExternalResponse {
+  bool accepted = 1;
+}

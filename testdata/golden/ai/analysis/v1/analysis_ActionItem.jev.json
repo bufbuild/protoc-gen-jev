@@ -1,0 +1,38 @@
+{
+  "message_name": "ActionItem",
+  "package": "ai.analysis.v1",
+  "file_base": "analysis",
+  "questions": {
+    "priority": {
+      "type": "Choice",
+      "instructions": "Urgency and priority level of the task.",
+      "criteria": {
+        "PRIORITY_HIGH": "",
+        "PRIORITY_LOW": "",
+        "PRIORITY_MEDIUM": "",
+        "PRIORITY_URGENT": ""
+      },
+      "proto_field": "priority",
+      "json_field": "priority",
+      "go_field": "Priority",
+      "py_field": "priority",
+      "field_type": "enum",
+      "is_enum": true,
+      "enum_type_name": "Priority"
+    },
+    "requiresImmediateAction": {
+      "type": "Noul",
+      "instructions": "Whether this task requires immediate escalation or intervention.",
+      "threshold": 0.5,
+      "proto_field": "requires_immediate_action",
+      "json_field": "requiresImmediateAction",
+      "go_field": "RequiresImmediateAction",
+      "py_field": "requires_immediate_action",
+      "field_type": "bool"
+    }
+  },
+  "order": [
+    "priority",
+    "requiresImmediateAction"
+  ]
+}

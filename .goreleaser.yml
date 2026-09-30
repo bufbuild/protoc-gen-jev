@@ -1,0 +1,73 @@
+version: 2
+
+builds:
+  - binary: protoc-gen-jev
+    goos:
+      - darwin
+      - linux
+      - windows
+    goarch:
+      - amd64
+      - arm64
+    env:
+      - CGO_ENABLED=0
+    ldflags:
+      - -s -w -X main.version={{.Version}}
+
+release:
+  prerelease: auto
+  header: |
+    ## Installation
+
+    ### Binary download
+    Download the pre-compiled binary for your platform from the assets below, extract the archive, and ensure `protoc-gen-jev` is placed on your `PATH`.
+
+    ### Go install
+    ```sh
+    go install github.com/bufbuild/protoc-gen-jev@{{ .Tag }}
+    ```
+
+    ### Mise
+    ```sh
+    mise use github:bufbuild/protoc-gen-jev@{{ .Version }}
+    ```
+
+    ## Usage
+
+    Configure `buf.gen.yaml` to generate Go, TypeScript, Python, and JSON outputs:
+
+    ```yaml
+    version: v2
+    clean: true
+    inputs:
+      - directory: proto
+    plugins:
+      - remote: buf.build/protocolbuffers/go:v1.36.12
+        out: gen/jev
+        opt:
+          - paths=source_relative
+      - remote: buf.build/bufbuild/es:v2.15.0
+        exclude_types: [jev.v1]
+        out: gen/jev
+        opt:
+          - target=ts
+      - remote: buf.build/bufbuild/py:v0.5.0
+        exclude_types: [jev.v1]
+        out: gen/jev
+      - local: protoc-gen-jev
+        out: gen/jev
+        opt:
+          - targets=go,ts,python,json
+          - paths=source_relative
+    ```
+
+    Generate code:
+    ```sh
+    buf generate
+    ```
+
+universal_binaries:
+  - replace: true
+
+checksum:
+  name_template: 'checksums.txt'

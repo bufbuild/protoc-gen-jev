@@ -1,0 +1,40 @@
+edition = "2024";
+
+// Preserve implicit presence except where explicitly enabled on a field.
+option features.field_presence = IMPLICIT;
+option features.default_symbol_visibility = EXPORT_ALL;
+option features.(pb.go).api_level = API_OPEN;
+package ai.contract.v1;
+option go_package = "github.com/bufbuild/protoc-gen-jev/gen/jev/ai/contract/v1;contractv1";
+import "jev/v1/options.proto";
+import "ai/shared/v1/shared.proto";
+import "google/protobuf/go_features.proto";
+
+message EvaluateRequest {
+  string input_text = 1;
+  uint64 input_count = 2;
+}
+
+message EvaluateResponse {
+  bool flag = 1 [features.field_presence = EXPLICIT, (jev.v1.field).noul = {threshold: 0}];
+  int32 rating = 2 [features.field_presence = EXPLICIT, (jev.v1.field).score = {levels: [{value: -3, description: "Low"}, {value: -2, description: "High"}]}];
+  uint32 count = 3;
+  int64 big_count = 4;
+  uint64 big_unsigned = 5;
+  fixed32 fixed_count = 6;
+  sfixed64 signed_fixed_count = 7;
+  bool risk = 8 [json_name = "risk-flag"];
+  ai.shared.v1.Status status = 9;
+  string label = 10 [features.field_presence = EXPLICIT, (jev.v1.field).choice = { choices: ["YES", "NO"] }];
+  int64 boundary = 14 [(jev.v1.field).score = {levels: [{value: 9007199254740990, description: "Low"}, {value: 9007199254740991, description: "High"}]}];
+  oneof route {
+    string email = 11;
+    bytes binary = 12;
+    string excluded = 13 [(jev.v1.field).skip = true];
+  }
+}
+
+message Container {
+  message NestedRequest { string input_text = 1; }
+  message NestedResponse { bool accepted = 1 [features.field_presence = EXPLICIT]; }
+}

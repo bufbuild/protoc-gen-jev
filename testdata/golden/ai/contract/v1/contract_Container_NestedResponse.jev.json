@@ -1,0 +1,20 @@
+{
+  "message_name": "Container_NestedResponse",
+  "package": "ai.contract.v1",
+  "file_base": "contract",
+  "questions": {
+    "accepted": {
+      "type": "Noul",
+      "instructions": "Evaluate accepted",
+      "threshold": 0.5,
+      "proto_field": "accepted",
+      "json_field": "accepted",
+      "go_field": "Accepted",
+      "py_field": "accepted",
+      "field_type": "bool"
+    }
+  },
+  "order": [
+    "accepted"
+  ]
+}

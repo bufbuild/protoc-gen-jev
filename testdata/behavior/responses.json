@@ -1,0 +1,1147 @@
+[
+  {
+    "name": "valid canonical and half-away rounding",
+    "response": {
+      "model": "test-model",
+      "usage": {
+        "input_tokens": 12,
+        "output_tokens": 4
+      },
+      "answers": {
+        "flag": {
+          "type": "noul",
+          "noul": 0
+        },
+        "rating": {
+          "type": "score",
+          "score": 0.5
+        },
+        "count": {
+          "type": "score",
+          "score": 1.5
+        },
+        "bigCount": {
+          "type": "score",
+          "score": 2
+        },
+        "bigUnsigned": {
+          "type": "score",
+          "score": 2
+        },
+        "fixedCount": {
+          "type": "score",
+          "score": 2
+        },
+        "signedFixedCount": {
+          "type": "score",
+          "score": 2
+        },
+        "risk-flag": {
+          "type": "noul",
+          "noul": 0.75
+        },
+        "status": {
+          "type": "choice",
+          "choice": "STATUS_READY",
+          "probabilities": {
+            "STATUS_READY": 0.9,
+            "STATUS_BLOCKED": 0.1
+          },
+          "confidence": 0.8
+        },
+        "label": {
+          "type": "choice",
+          "choice": "YES"
+        },
+        "route": {
+          "type": "choice",
+          "choice": "binary"
+        },
+        "boundary": {
+          "type": "score",
+          "score": 1
+        }
+      }
+    },
+    "expected": {
+      "flag": true,
+      "rating": -3,
+      "count": 3,
+      "bigCount": "3",
+      "bigUnsigned": "3",
+      "fixedCount": 3,
+      "signedFixedCount": "3",
+      "risk-flag": true,
+      "status": "STATUS_READY",
+      "label": "YES",
+      "binary": "YmluYXJ5",
+      "boundary": "9007199254740991"
+    }
+  },
+  {
+    "name": "legacy grouped response",
+    "response": {
+      "model": "test-model",
+      "usage": {
+        "input_tokens": 12,
+        "output_tokens": 4
+      },
+      "choices": {
+        "status": {
+          "choice": "STATUS_READY",
+          "probabilities": {
+            "STATUS_READY": 0.9,
+            "STATUS_BLOCKED": 0.1
+          },
+          "confidence": 0.8
+        },
+        "label": {
+          "choice": "YES"
+        },
+        "route": {
+          "choice": "binary"
+        }
+      },
+      "scores": {
+        "rating": {
+          "score": 0.5
+        },
+        "count": {
+          "score": 1.5
+        },
+        "bigCount": {
+          "score": 2
+        },
+        "bigUnsigned": {
+          "score": 2
+        },
+        "fixedCount": {
+          "score": 2
+        },
+        "signedFixedCount": {
+          "score": 2
+        },
+        "boundary": {
+          "score": 1
+        }
+      },
+      "nouls": {
+        "flag": {
+          "noul": 0
+        },
+        "risk-flag": {
+          "noul": 0.75
+        }
+      }
+    },
+    "expected": {
+      "flag": true,
+      "rating": -3,
+      "count": 3,
+      "bigCount": "3",
+      "bigUnsigned": "3",
+      "fixedCount": 3,
+      "signedFixedCount": "3",
+      "risk-flag": true,
+      "status": "STATUS_READY",
+      "label": "YES",
+      "binary": "YmluYXJ5",
+      "boundary": "9007199254740991"
+    }
+  },
+  {
+    "name": "wrong primitive",
+    "response": {
+      "model": "test-model",
+      "usage": {
+        "input_tokens": 12,
+        "output_tokens": 4
+      },
+      "answers": {
+        "flag": {
+          "type": "noul",
+          "noul": 0
+        },
+        "rating": {
+          "type": "noul",
+          "noul": 1
+        },
+        "count": {
+          "type": "score",
+          "score": 1.5
+        },
+        "bigCount": {
+          "type": "score",
+          "score": 2
+        },
+        "bigUnsigned": {
+          "type": "score",
+          "score": 2
+        },
+        "fixedCount": {
+          "type": "score",
+          "score": 2
+        },
+        "signedFixedCount": {
+          "type": "score",
+          "score": 2
+        },
+        "risk-flag": {
+          "type": "noul",
+          "noul": 0.75
+        },
+        "status": {
+          "type": "choice",
+          "choice": "STATUS_READY",
+          "probabilities": {
+            "STATUS_READY": 0.9,
+            "STATUS_BLOCKED": 0.1
+          },
+          "confidence": 0.8
+        },
+        "label": {
+          "type": "choice",
+          "choice": "YES"
+        },
+        "route": {
+          "type": "choice",
+          "choice": "binary"
+        },
+        "boundary": {
+          "type": "score",
+          "score": 1
+        }
+      }
+    },
+    "error": true
+  },
+  {
+    "name": "missing score",
+    "response": {
+      "model": "test-model",
+      "usage": {
+        "input_tokens": 12,
+        "output_tokens": 4
+      },
+      "answers": {
+        "flag": {
+          "type": "noul",
+          "noul": 0
+        },
+        "rating": {
+          "type": "score"
+        },
+        "count": {
+          "type": "score",
+          "score": 1.5
+        },
+        "bigCount": {
+          "type": "score",
+          "score": 2
+        },
+        "bigUnsigned": {
+          "type": "score",
+          "score": 2
+        },
+        "fixedCount": {
+          "type": "score",
+          "score": 2
+        },
+        "signedFixedCount": {
+          "type": "score",
+          "score": 2
+        },
+        "risk-flag": {
+          "type": "noul",
+          "noul": 0.75
+        },
+        "status": {
+          "type": "choice",
+          "choice": "STATUS_READY",
+          "probabilities": {
+            "STATUS_READY": 0.9,
+            "STATUS_BLOCKED": 0.1
+          },
+          "confidence": 0.8
+        },
+        "label": {
+          "type": "choice",
+          "choice": "YES"
+        },
+        "route": {
+          "type": "choice",
+          "choice": "binary"
+        },
+        "boundary": {
+          "type": "score",
+          "score": 1
+        }
+      }
+    },
+    "error": true
+  },
+  {
+    "name": "null score",
+    "response": {
+      "model": "test-model",
+      "usage": {
+        "input_tokens": 12,
+        "output_tokens": 4
+      },
+      "answers": {
+        "flag": {
+          "type": "noul",
+          "noul": 0
+        },
+        "rating": {
+          "type": "score",
+          "score": null
+        },
+        "count": {
+          "type": "score",
+          "score": 1.5
+        },
+        "bigCount": {
+          "type": "score",
+          "score": 2
+        },
+        "bigUnsigned": {
+          "type": "score",
+          "score": 2
+        },
+        "fixedCount": {
+          "type": "score",
+          "score": 2
+        },
+        "signedFixedCount": {
+          "type": "score",
+          "score": 2
+        },
+        "risk-flag": {
+          "type": "noul",
+          "noul": 0.75
+        },
+        "status": {
+          "type": "choice",
+          "choice": "STATUS_READY",
+          "probabilities": {
+            "STATUS_READY": 0.9,
+            "STATUS_BLOCKED": 0.1
+          },
+          "confidence": 0.8
+        },
+        "label": {
+          "type": "choice",
+          "choice": "YES"
+        },
+        "route": {
+          "type": "choice",
+          "choice": "binary"
+        },
+        "boundary": {
+          "type": "score",
+          "score": 1
+        }
+      }
+    },
+    "error": true
+  },
+  {
+    "name": "boolean score",
+    "response": {
+      "model": "test-model",
+      "usage": {
+        "input_tokens": 12,
+        "output_tokens": 4
+      },
+      "answers": {
+        "flag": {
+          "type": "noul",
+          "noul": 0
+        },
+        "rating": {
+          "type": "score",
+          "score": true
+        },
+        "count": {
+          "type": "score",
+          "score": 1.5
+        },
+        "bigCount": {
+          "type": "score",
+          "score": 2
+        },
+        "bigUnsigned": {
+          "type": "score",
+          "score": 2
+        },
+        "fixedCount": {
+          "type": "score",
+          "score": 2
+        },
+        "signedFixedCount": {
+          "type": "score",
+          "score": 2
+        },
+        "risk-flag": {
+          "type": "noul",
+          "noul": 0.75
+        },
+        "status": {
+          "type": "choice",
+          "choice": "STATUS_READY",
+          "probabilities": {
+            "STATUS_READY": 0.9,
+            "STATUS_BLOCKED": 0.1
+          },
+          "confidence": 0.8
+        },
+        "label": {
+          "type": "choice",
+          "choice": "YES"
+        },
+        "route": {
+          "type": "choice",
+          "choice": "binary"
+        },
+        "boundary": {
+          "type": "score",
+          "score": 1
+        }
+      }
+    },
+    "error": true
+  },
+  {
+    "name": "string score",
+    "response": {
+      "model": "test-model",
+      "usage": {
+        "input_tokens": 12,
+        "output_tokens": 4
+      },
+      "answers": {
+        "flag": {
+          "type": "noul",
+          "noul": 0
+        },
+        "rating": {
+          "type": "score",
+          "score": "0.5"
+        },
+        "count": {
+          "type": "score",
+          "score": 1.5
+        },
+        "bigCount": {
+          "type": "score",
+          "score": 2
+        },
+        "bigUnsigned": {
+          "type": "score",
+          "score": 2
+        },
+        "fixedCount": {
+          "type": "score",
+          "score": 2
+        },
+        "signedFixedCount": {
+          "type": "score",
+          "score": 2
+        },
+        "risk-flag": {
+          "type": "noul",
+          "noul": 0.75
+        },
+        "status": {
+          "type": "choice",
+          "choice": "STATUS_READY",
+          "probabilities": {
+            "STATUS_READY": 0.9,
+            "STATUS_BLOCKED": 0.1
+          },
+          "confidence": 0.8
+        },
+        "label": {
+          "type": "choice",
+          "choice": "YES"
+        },
+        "route": {
+          "type": "choice",
+          "choice": "binary"
+        },
+        "boundary": {
+          "type": "score",
+          "score": 1
+        }
+      }
+    },
+    "error": true
+  },
+  {
+    "name": "out of range score",
+    "response": {
+      "model": "test-model",
+      "usage": {
+        "input_tokens": 12,
+        "output_tokens": 4
+      },
+      "answers": {
+        "flag": {
+          "type": "noul",
+          "noul": 0
+        },
+        "rating": {
+          "type": "score",
+          "score": 3
+        },
+        "count": {
+          "type": "score",
+          "score": 1.5
+        },
+        "bigCount": {
+          "type": "score",
+          "score": 2
+        },
+        "bigUnsigned": {
+          "type": "score",
+          "score": 2
+        },
+        "fixedCount": {
+          "type": "score",
+          "score": 2
+        },
+        "signedFixedCount": {
+          "type": "score",
+          "score": 2
+        },
+        "risk-flag": {
+          "type": "noul",
+          "noul": 0.75
+        },
+        "status": {
+          "type": "choice",
+          "choice": "STATUS_READY",
+          "probabilities": {
+            "STATUS_READY": 0.9,
+            "STATUS_BLOCKED": 0.1
+          },
+          "confidence": 0.8
+        },
+        "label": {
+          "type": "choice",
+          "choice": "YES"
+        },
+        "route": {
+          "type": "choice",
+          "choice": "binary"
+        },
+        "boundary": {
+          "type": "score",
+          "score": 1
+        }
+      }
+    },
+    "error": true
+  },
+  {
+    "name": "negative score",
+    "response": {
+      "model": "test-model",
+      "usage": {
+        "input_tokens": 12,
+        "output_tokens": 4
+      },
+      "answers": {
+        "flag": {
+          "type": "noul",
+          "noul": 0
+        },
+        "rating": {
+          "type": "score",
+          "score": -1
+        },
+        "count": {
+          "type": "score",
+          "score": 1.5
+        },
+        "bigCount": {
+          "type": "score",
+          "score": 2
+        },
+        "bigUnsigned": {
+          "type": "score",
+          "score": 2
+        },
+        "fixedCount": {
+          "type": "score",
+          "score": 2
+        },
+        "signedFixedCount": {
+          "type": "score",
+          "score": 2
+        },
+        "risk-flag": {
+          "type": "noul",
+          "noul": 0.75
+        },
+        "status": {
+          "type": "choice",
+          "choice": "STATUS_READY",
+          "probabilities": {
+            "STATUS_READY": 0.9,
+            "STATUS_BLOCKED": 0.1
+          },
+          "confidence": 0.8
+        },
+        "label": {
+          "type": "choice",
+          "choice": "YES"
+        },
+        "route": {
+          "type": "choice",
+          "choice": "binary"
+        },
+        "boundary": {
+          "type": "score",
+          "score": 1
+        }
+      }
+    },
+    "error": true
+  },
+  {
+    "name": "invalid choice",
+    "response": {
+      "model": "test-model",
+      "usage": {
+        "input_tokens": 12,
+        "output_tokens": 4
+      },
+      "answers": {
+        "flag": {
+          "type": "noul",
+          "noul": 0
+        },
+        "rating": {
+          "type": "score",
+          "score": 0.5
+        },
+        "count": {
+          "type": "score",
+          "score": 1.5
+        },
+        "bigCount": {
+          "type": "score",
+          "score": 2
+        },
+        "bigUnsigned": {
+          "type": "score",
+          "score": 2
+        },
+        "fixedCount": {
+          "type": "score",
+          "score": 2
+        },
+        "signedFixedCount": {
+          "type": "score",
+          "score": 2
+        },
+        "risk-flag": {
+          "type": "noul",
+          "noul": 0.75
+        },
+        "status": {
+          "type": "choice",
+          "choice": "STATUS_READY",
+          "probabilities": {
+            "STATUS_READY": 0.9,
+            "STATUS_BLOCKED": 0.1
+          },
+          "confidence": 0.8
+        },
+        "label": {
+          "type": "choice",
+          "choice": "TYPO"
+        },
+        "route": {
+          "type": "choice",
+          "choice": "binary"
+        },
+        "boundary": {
+          "type": "score",
+          "score": 1
+        }
+      }
+    },
+    "error": true
+  },
+  {
+    "name": "invalid enum",
+    "response": {
+      "model": "test-model",
+      "usage": {
+        "input_tokens": 12,
+        "output_tokens": 4
+      },
+      "answers": {
+        "flag": {
+          "type": "noul",
+          "noul": 0
+        },
+        "rating": {
+          "type": "score",
+          "score": 0.5
+        },
+        "count": {
+          "type": "score",
+          "score": 1.5
+        },
+        "bigCount": {
+          "type": "score",
+          "score": 2
+        },
+        "bigUnsigned": {
+          "type": "score",
+          "score": 2
+        },
+        "fixedCount": {
+          "type": "score",
+          "score": 2
+        },
+        "signedFixedCount": {
+          "type": "score",
+          "score": 2
+        },
+        "risk-flag": {
+          "type": "noul",
+          "noul": 0.75
+        },
+        "status": {
+          "type": "choice",
+          "choice": "STATUS_TYPO"
+        },
+        "label": {
+          "type": "choice",
+          "choice": "YES"
+        },
+        "route": {
+          "type": "choice",
+          "choice": "binary"
+        },
+        "boundary": {
+          "type": "score",
+          "score": 1
+        }
+      }
+    },
+    "error": true
+  },
+  {
+    "name": "excluded oneof",
+    "response": {
+      "model": "test-model",
+      "usage": {
+        "input_tokens": 12,
+        "output_tokens": 4
+      },
+      "answers": {
+        "flag": {
+          "type": "noul",
+          "noul": 0
+        },
+        "rating": {
+          "type": "score",
+          "score": 0.5
+        },
+        "count": {
+          "type": "score",
+          "score": 1.5
+        },
+        "bigCount": {
+          "type": "score",
+          "score": 2
+        },
+        "bigUnsigned": {
+          "type": "score",
+          "score": 2
+        },
+        "fixedCount": {
+          "type": "score",
+          "score": 2
+        },
+        "signedFixedCount": {
+          "type": "score",
+          "score": 2
+        },
+        "risk-flag": {
+          "type": "noul",
+          "noul": 0.75
+        },
+        "status": {
+          "type": "choice",
+          "choice": "STATUS_READY",
+          "probabilities": {
+            "STATUS_READY": 0.9,
+            "STATUS_BLOCKED": 0.1
+          },
+          "confidence": 0.8
+        },
+        "label": {
+          "type": "choice",
+          "choice": "YES"
+        },
+        "route": {
+          "type": "choice",
+          "choice": "excluded"
+        },
+        "boundary": {
+          "type": "score",
+          "score": 1
+        }
+      }
+    },
+    "error": true
+  },
+  {
+    "name": "invalid probability",
+    "response": {
+      "model": "test-model",
+      "usage": {
+        "input_tokens": 12,
+        "output_tokens": 4
+      },
+      "answers": {
+        "flag": {
+          "type": "noul",
+          "noul": 2
+        },
+        "rating": {
+          "type": "score",
+          "score": 0.5
+        },
+        "count": {
+          "type": "score",
+          "score": 1.5
+        },
+        "bigCount": {
+          "type": "score",
+          "score": 2
+        },
+        "bigUnsigned": {
+          "type": "score",
+          "score": 2
+        },
+        "fixedCount": {
+          "type": "score",
+          "score": 2
+        },
+        "signedFixedCount": {
+          "type": "score",
+          "score": 2
+        },
+        "risk-flag": {
+          "type": "noul",
+          "noul": 0.75
+        },
+        "status": {
+          "type": "choice",
+          "choice": "STATUS_READY",
+          "probabilities": {
+            "STATUS_READY": 0.9,
+            "STATUS_BLOCKED": 0.1
+          },
+          "confidence": 0.8
+        },
+        "label": {
+          "type": "choice",
+          "choice": "YES"
+        },
+        "route": {
+          "type": "choice",
+          "choice": "binary"
+        },
+        "boundary": {
+          "type": "score",
+          "score": 1
+        }
+      }
+    },
+    "error": true
+  },
+  {
+    "name": "null probability",
+    "response": {
+      "model": "test-model",
+      "usage": {
+        "input_tokens": 12,
+        "output_tokens": 4
+      },
+      "answers": {
+        "flag": {
+          "type": "noul",
+          "noul": null
+        },
+        "rating": {
+          "type": "score",
+          "score": 0.5
+        },
+        "count": {
+          "type": "score",
+          "score": 1.5
+        },
+        "bigCount": {
+          "type": "score",
+          "score": 2
+        },
+        "bigUnsigned": {
+          "type": "score",
+          "score": 2
+        },
+        "fixedCount": {
+          "type": "score",
+          "score": 2
+        },
+        "signedFixedCount": {
+          "type": "score",
+          "score": 2
+        },
+        "risk-flag": {
+          "type": "noul",
+          "noul": 0.75
+        },
+        "status": {
+          "type": "choice",
+          "choice": "STATUS_READY",
+          "probabilities": {
+            "STATUS_READY": 0.9,
+            "STATUS_BLOCKED": 0.1
+          },
+          "confidence": 0.8
+        },
+        "label": {
+          "type": "choice",
+          "choice": "YES"
+        },
+        "route": {
+          "type": "choice",
+          "choice": "binary"
+        },
+        "boundary": {
+          "type": "score",
+          "score": 1
+        }
+      }
+    },
+    "error": true
+  },
+  {
+    "name": "missing discriminator",
+    "response": {
+      "model": "test-model",
+      "usage": {
+        "input_tokens": 12,
+        "output_tokens": 4
+      },
+      "answers": {
+        "flag": {
+          "type": "noul",
+          "noul": 0
+        },
+        "rating": {
+          "score": 0.5
+        },
+        "count": {
+          "type": "score",
+          "score": 1.5
+        },
+        "bigCount": {
+          "type": "score",
+          "score": 2
+        },
+        "bigUnsigned": {
+          "type": "score",
+          "score": 2
+        },
+        "fixedCount": {
+          "type": "score",
+          "score": 2
+        },
+        "signedFixedCount": {
+          "type": "score",
+          "score": 2
+        },
+        "risk-flag": {
+          "type": "noul",
+          "noul": 0.75
+        },
+        "status": {
+          "type": "choice",
+          "choice": "STATUS_READY",
+          "probabilities": {
+            "STATUS_READY": 0.9,
+            "STATUS_BLOCKED": 0.1
+          },
+          "confidence": 0.8
+        },
+        "label": {
+          "type": "choice",
+          "choice": "YES"
+        },
+        "route": {
+          "type": "choice",
+          "choice": "binary"
+        },
+        "boundary": {
+          "type": "score",
+          "score": 1
+        }
+      }
+    },
+    "error": true
+  },
+  {
+    "name": "missing answer",
+    "response": {
+      "model": "test-model",
+      "usage": {
+        "input_tokens": 12,
+        "output_tokens": 4
+      },
+      "answers": {
+        "rating": {
+          "type": "score",
+          "score": 0.5
+        },
+        "count": {
+          "type": "score",
+          "score": 1.5
+        },
+        "bigCount": {
+          "type": "score",
+          "score": 2
+        },
+        "bigUnsigned": {
+          "type": "score",
+          "score": 2
+        },
+        "fixedCount": {
+          "type": "score",
+          "score": 2
+        },
+        "signedFixedCount": {
+          "type": "score",
+          "score": 2
+        },
+        "risk-flag": {
+          "type": "noul",
+          "noul": 0.75
+        },
+        "status": {
+          "type": "choice",
+          "choice": "STATUS_READY",
+          "probabilities": {
+            "STATUS_READY": 0.9,
+            "STATUS_BLOCKED": 0.1
+          },
+          "confidence": 0.8
+        },
+        "label": {
+          "type": "choice",
+          "choice": "YES"
+        },
+        "route": {
+          "type": "choice",
+          "choice": "binary"
+        },
+        "boundary": {
+          "type": "score",
+          "score": 1
+        }
+      }
+    },
+    "error": true
+  },
+  {
+    "name": "empty response",
+    "response": {},
+    "error": true
+  },
+  {
+    "name": "null answers",
+    "response": {
+      "answers": null
+    },
+    "error": true
+  },
+  {
+    "name": "array answers",
+    "response": {
+      "answers": []
+    },
+    "error": true
+  },
+  {
+    "name": "null answer",
+    "response": {
+      "model": "test-model",
+      "usage": {
+        "input_tokens": 12,
+        "output_tokens": 4
+      },
+      "answers": {
+        "flag": null,
+        "rating": {
+          "type": "score",
+          "score": 0.5
+        },
+        "count": {
+          "type": "score",
+          "score": 1.5
+        },
+        "bigCount": {
+          "type": "score",
+          "score": 2
+        },
+        "bigUnsigned": {
+          "type": "score",
+          "score": 2
+        },
+        "fixedCount": {
+          "type": "score",
+          "score": 2
+        },
+        "signedFixedCount": {
+          "type": "score",
+          "score": 2
+        },
+        "risk-flag": {
+          "type": "noul",
+          "noul": 0.75
+        },
+        "status": {
+          "type": "choice",
+          "choice": "STATUS_READY",
+          "probabilities": {
+            "STATUS_READY": 0.9,
+            "STATUS_BLOCKED": 0.1
+          },
+          "confidence": 0.8
+        },
+        "label": {
+          "type": "choice",
+          "choice": "YES"
+        },
+        "route": {
+          "type": "choice",
+          "choice": "binary"
+        },
+        "boundary": {
+          "type": "score",
+          "score": 1
+        }
+      }
+    },
+    "error": true
+  }
+]

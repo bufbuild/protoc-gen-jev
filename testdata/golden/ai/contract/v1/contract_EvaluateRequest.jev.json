@@ -1,0 +1,48 @@
+{
+  "message_name": "EvaluateRequest",
+  "package": "ai.contract.v1",
+  "file_base": "contract",
+  "questions": {
+    "inputCount": {
+      "type": "Score",
+      "instructions": "Evaluate inputCount",
+      "criteria": [
+        "Very low extent or intensity",
+        "Low extent or intensity",
+        "Moderate extent or intensity",
+        "High extent or intensity",
+        "Very high extent or intensity"
+      ],
+      "score_levels": [
+        {
+          "value": 1,
+          "description": "Very low extent or intensity"
+        },
+        {
+          "value": 2,
+          "description": "Low extent or intensity"
+        },
+        {
+          "value": 3,
+          "description": "Moderate extent or intensity"
+        },
+        {
+          "value": 4,
+          "description": "High extent or intensity"
+        },
+        {
+          "value": 5,
+          "description": "Very high extent or intensity"
+        }
+      ],
+      "proto_field": "input_count",
+      "json_field": "inputCount",
+      "go_field": "InputCount",
+      "py_field": "input_count",
+      "field_type": "uint64"
+    }
+  },
+  "order": [
+    "inputCount"
+  ]
+}

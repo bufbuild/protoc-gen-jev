@@ -1,0 +1,55 @@
+{
+  "message_name": "AnalysisReport",
+  "package": "ai.analysis.v1",
+  "file_base": "analysis",
+  "questions": {
+    "confidenceScore": {
+      "type": "Score",
+      "instructions": "Confidence score of the overall analysis between 0.0 and 1.0.",
+      "criteria": [
+        "Low confidence",
+        "Medium confidence",
+        "High confidence"
+      ],
+      "score_levels": [
+        {
+          "value": 0,
+          "description": "Low confidence"
+        },
+        {
+          "value": 0.5,
+          "description": "Medium confidence"
+        },
+        {
+          "value": 1,
+          "description": "High confidence"
+        }
+      ],
+      "proto_field": "confidence_score",
+      "json_field": "confidenceScore",
+      "go_field": "ConfidenceScore",
+      "py_field": "confidence_score",
+      "field_type": "float32"
+    },
+    "sentiment": {
+      "type": "Choice",
+      "instructions": "Overall sentiment detected in the text.",
+      "criteria": {
+        "SENTIMENT_NEGATIVE": "",
+        "SENTIMENT_NEUTRAL": "",
+        "SENTIMENT_POSITIVE": ""
+      },
+      "proto_field": "sentiment",
+      "json_field": "sentiment",
+      "go_field": "Sentiment",
+      "py_field": "sentiment",
+      "field_type": "enum",
+      "is_enum": true,
+      "enum_type_name": "Sentiment"
+    }
+  },
+  "order": [
+    "sentiment",
+    "confidenceScore"
+  ]
+}

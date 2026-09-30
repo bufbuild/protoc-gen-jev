@@ -1,0 +1,19 @@
+edition = "2024";
+
+// Preserve implicit presence except where explicitly enabled on a field.
+option features.field_presence = IMPLICIT;
+option features.default_symbol_visibility = EXPORT_ALL;
+option features.(pb.go).api_level = API_OPEN;
+package ai.contract.v1;
+option go_package = "github.com/bufbuild/protoc-gen-jev/gen/jev/ai/contract/v1;contractv1";
+import "jev/v1/options.proto";
+import "ai/contract/v1/contract.proto";
+import "ai/shared/v1/shared.proto";
+import "google/protobuf/go_features.proto";
+
+service ContractService {
+  option (jev.v1.service).enabled = true;
+  rpc Evaluate(EvaluateRequest) returns (EvaluateResponse);
+  rpc External(ai.shared.v1.ExternalRequest) returns (ai.shared.v1.ExternalResponse);
+  rpc Nested(Container.NestedRequest) returns (Container.NestedResponse);
+}
