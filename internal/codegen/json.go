@@ -6,7 +6,7 @@ import (
 
 	"google.golang.org/protobuf/compiler/protogen"
 
-	"github.com/sudorandom/protoc-gen-jev/internal/model"
+	"github.com/bufbuild/protoc-gen-jev/internal/model"
 )
 
 // GenerateJSON writes the language-agnostic .jev.json specification.

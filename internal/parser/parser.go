@@ -11,8 +11,8 @@ import (
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/reflect/protoreflect"
 
-	"github.com/sudorandom/protoc-gen-jev/internal/model"
-	jevv1 "github.com/sudorandom/protoc-gen-jev/pkg/jev/v1"
+	"github.com/bufbuild/protoc-gen-jev/internal/model"
+	jevv1 "github.com/bufbuild/protoc-gen-jev/pkg/jev/v1"
 )
 
 // ProcessMessage parses a single Protobuf message into a Jev MessageSpec.

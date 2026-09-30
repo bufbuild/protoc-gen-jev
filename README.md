@@ -1,7 +1,7 @@
 # protoc-gen-jev
 
-[![Go CI](https://img.shields.io/github/actions/workflow/status/sudorandom/protoc-gen-jev/go.yml?label=Go%20CI)](https://github.com/sudorandom/protoc-gen-jev/actions/workflows/go.yml)
-[![GitHub Release](https://img.shields.io/github/v/release/sudorandom/protoc-gen-jev)](https://github.com/sudorandom/protoc-gen-jev/releases/latest)
+[![Go CI](https://img.shields.io/github/actions/workflow/status/bufbuild/protoc-gen-jev/go.yml?label=Go%20CI)](https://github.com/bufbuild/protoc-gen-jev/actions/workflows/go.yml)
+[![GitHub Release](https://img.shields.io/github/v/release/bufbuild/protoc-gen-jev)](https://github.com/bufbuild/protoc-gen-jev/releases/latest)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 **Define AI decisions in Protobuf. Generate type-safe clients for Go, TypeScript, and Python.**
@@ -43,7 +43,7 @@ version: v2
 modules:
   - path: proto
 deps:
-  - buf.build/sudo-random/protoc-gen-jev
+  - buf.build/bufbuild-experimental/protoc-gen-jev
 ```
 
 Annotate your response message in `proto/triage/v1/triage.proto`:
@@ -182,9 +182,9 @@ Generate multiple targets simultaneously: `opt: [targets=go,targets=ts]`.
 
 ## Installation
 
-- **Pre-compiled Binary**: Download from [GitHub Releases](https://github.com/sudorandom/protoc-gen-jev/releases/latest) and place on `PATH`.
-- **Go Install**: `go install github.com/sudorandom/protoc-gen-jev@latest`
-- **Mise**: `mise use github:sudorandom/protoc-gen-jev@latest`
+- **Pre-compiled Binary**: Download from [GitHub Releases](https://github.com/bufbuild/protoc-gen-jev/releases/latest) and place on `PATH`.
+- **Go Install**: `go install github.com/bufbuild/protoc-gen-jev@latest`
+- **Mise**: `mise use github:bufbuild/protoc-gen-jev@latest`
 
 ---
 

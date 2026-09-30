@@ -6,7 +6,7 @@ option features.default_symbol_visibility = EXPORT_ALL;
 option features.(pb.go).api_level = API_OPEN;
 package ai.shared.v1;
 import "google/protobuf/go_features.proto";
-option go_package = "github.com/sudorandom/protoc-gen-jev/gen/jev/ai/shared/v1;sharedv1";
+option go_package = "github.com/bufbuild/protoc-gen-jev/gen/jev/ai/shared/v1;sharedv1";
 
 enum Status {
   STATUS_UNSPECIFIED = 0;

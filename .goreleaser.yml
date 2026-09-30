@@ -24,12 +24,12 @@ release:
 
     ### Go install
     ```sh
-    go install github.com/sudorandom/protoc-gen-jev@{{ .Tag }}
+    go install github.com/bufbuild/protoc-gen-jev@{{ .Tag }}
     ```
 
     ### Mise
     ```sh
-    mise use github:sudorandom/protoc-gen-jev@{{ .Version }}
+    mise use github:bufbuild/protoc-gen-jev@{{ .Version }}
     ```
 
     ## Usage

@@ -29,7 +29,7 @@ package jev.v1;
 
 import "google/protobuf/descriptor.proto";
 
-option go_package = "github.com/sudorandom/protoc-gen-jev/pkg/jev/v1;jevv1";
+option go_package = "github.com/bufbuild/protoc-gen-jev/pkg/jev/v1;jevv1";
 
 extend google.protobuf.FieldOptions {
   // Annotation extending Protobuf field definitions with Jev evaluation directives.

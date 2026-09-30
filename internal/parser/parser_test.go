@@ -6,8 +6,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/sudorandom/protoc-gen-jev/internal/model"
-	"github.com/sudorandom/protoc-gen-jev/internal/parser"
+	"github.com/bufbuild/protoc-gen-jev/internal/model"
+	"github.com/bufbuild/protoc-gen-jev/internal/parser"
 )
 
 func TestCleanComments(t *testing.T) {

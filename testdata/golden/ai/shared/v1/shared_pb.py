@@ -98,7 +98,7 @@ class Status(Enum):
 
 
 _DESC = file_desc(
-    b'\n\x19ai/shared/v1/shared.proto\x12\x0cai.shared.v1"0\n\x0fExternalRequest\x12\x1d\n\ninput_text\x18\x01 \x01(\tR\tinputText".\n\x10ExternalResponse\x12\x1a\n\x08accepted\x18\x01 \x01(\x08R\x08accepted*F\n\x06Status\x12\x16\n\x12STATUS_UNSPECIFIED\x10\x00\x12\x10\n\x0cSTATUS_READY\x10\x01\x12\x12\n\x0eSTATUS_BLOCKED\x10\x02BPZBgithub.com/sudorandom/protoc-gen-jev/gen/jev/ai/shared/v1;sharedv1\x92\x03\t\x08\x02@\x01\xd2>\x02\x10\x01b\x08editionsp\xe9\x07',
+    b'\n\x19ai/shared/v1/shared.proto\x12\x0cai.shared.v1"0\n\x0fExternalRequest\x12\x1d\n\ninput_text\x18\x01 \x01(\tR\tinputText".\n\x10ExternalResponse\x12\x1a\n\x08accepted\x18\x01 \x01(\x08R\x08accepted*F\n\x06Status\x12\x16\n\x12STATUS_UNSPECIFIED\x10\x00\x12\x10\n\x0cSTATUS_READY\x10\x01\x12\x12\n\x0eSTATUS_BLOCKED\x10\x02BNZ@github.com/bufbuild/protoc-gen-jev/gen/jev/ai/shared/v1;sharedv1\x92\x03\t\x08\x02@\x01\xd2>\x02\x10\x01b\x08editionsp\xe9\x07',
     [],
     {
         "ExternalRequest": ExternalRequest,

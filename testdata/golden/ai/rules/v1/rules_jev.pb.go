@@ -4,7 +4,7 @@ package rulesv1
 
 import (
 	"context"
-	"github.com/sudorandom/protoc-gen-jev/pkg/jev"
+	"github.com/bufbuild/protoc-gen-jev/pkg/jev"
 )
 
 type RuleTestRecordJevClient struct {

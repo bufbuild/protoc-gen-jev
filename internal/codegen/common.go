@@ -10,8 +10,8 @@ import (
 	"google.golang.org/protobuf/compiler/protogen"
 	"google.golang.org/protobuf/reflect/protoreflect"
 
-	"github.com/sudorandom/protoc-gen-jev/internal/model"
-	"github.com/sudorandom/protoc-gen-jev/pkg/jev"
+	"github.com/bufbuild/protoc-gen-jev/internal/model"
+	"github.com/bufbuild/protoc-gen-jev/pkg/jev"
 )
 
 func sortedKeys[V any](m map[string]V) []string {

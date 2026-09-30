@@ -6,8 +6,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/sudorandom/protoc-gen-jev/internal/model"
-	jevv1 "github.com/sudorandom/protoc-gen-jev/pkg/jev/v1"
+	"github.com/bufbuild/protoc-gen-jev/internal/model"
+	jevv1 "github.com/bufbuild/protoc-gen-jev/pkg/jev/v1"
 )
 
 func TestResolveScoreLevels(t *testing.T) {

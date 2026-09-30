@@ -1,4 +1,4 @@
-module github.com/sudorandom/protoc-gen-jev
+module github.com/bufbuild/protoc-gen-jev
 
 go 1.27.0
 

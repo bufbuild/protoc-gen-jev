@@ -6,7 +6,7 @@ option features.default_symbol_visibility = EXPORT_ALL;
 
 package jev.v1;
 
-option go_package = "github.com/sudorandom/protoc-gen-jev/pkg/jev/v1;jevv1";
+option go_package = "github.com/bufbuild/protoc-gen-jev/pkg/jev/v1;jevv1";
 
 // Meta reports execution metadata from the Jev provider.
 message Meta {

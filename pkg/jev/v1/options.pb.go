@@ -767,7 +767,7 @@ const file_jev_v1_options_proto_rawDesc = "" +
 	"\tthreshold\x18\x01 \x01(\x02B\x05\xaa\x01\x02\b\x01R\tthreshold:K\n" +
 	"\x05field\x12\x1d.google.protobuf.FieldOptions\x18\x95\xb5\x04 \x01(\v2\x14.jev.v1.FieldOptionsR\x05field:S\n" +
 	"\aservice\x12\x1f.google.protobuf.ServiceOptions\x18\x96\xb5\x04 \x01(\v2\x16.jev.v1.ServiceOptionsR\aservice:O\n" +
-	"\x06method\x12\x1e.google.protobuf.MethodOptions\x18\x97\xb5\x04 \x01(\v2\x15.jev.v1.MethodOptionsR\x06methodB<Z5github.com/sudorandom/protoc-gen-jev/pkg/jev/v1;jevv1\x92\x03\x02\b\x02b\beditionsp\xe9\a"
+	"\x06method\x12\x1e.google.protobuf.MethodOptions\x18\x97\xb5\x04 \x01(\v2\x15.jev.v1.MethodOptionsR\x06methodB:Z3github.com/bufbuild/protoc-gen-jev/pkg/jev/v1;jevv1\x92\x03\x02\b\x02b\beditionsp\xe9\a"
 
 var file_jev_v1_options_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_jev_v1_options_proto_goTypes = []any{

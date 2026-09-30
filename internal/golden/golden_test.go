@@ -6,7 +6,7 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/sudorandom/protoc-gen-jev/internal/golden"
+	"github.com/bufbuild/protoc-gen-jev/internal/golden"
 )
 
 func TestGoldenOutputs(t *testing.T) {

@@ -7,7 +7,7 @@
 package incidentv1
 
 import (
-	v1 "github.com/sudorandom/protoc-gen-jev/pkg/jev/v1"
+	v1 "github.com/bufbuild/protoc-gen-jev/pkg/jev/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -766,7 +766,7 @@ const file_incident_v1_incident_proto_rawDesc = "" +
 	"\x17PRIORITY_LEVEL_CRITICAL\x10\x042\xab\x01\n" +
 	"\x15IncidentTriageService\x12A\n" +
 	"\x06Triage\x12\x1a.incident.v1.TriageRequest\x1a\x1b.incident.v1.TriageResponse\x12O\n" +
-	"\rTriageDetails\x12\x1a.incident.v1.TriageRequest\x1a\".incident.v1.TriageDetailsResponseBRZKgithub.com/sudorandom/protoc-gen-jev/examples/go/gen/incident/v1;incidentv1\x92\x03\x02\b\x02b\beditionsp\xe9\a"
+	"\rTriageDetails\x12\x1a.incident.v1.TriageRequest\x1a\".incident.v1.TriageDetailsResponseBPZIgithub.com/bufbuild/protoc-gen-jev/examples/go/gen/incident/v1;incidentv1\x92\x03\x02\b\x02b\beditionsp\xe9\a"
 
 var file_incident_v1_incident_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_incident_v1_incident_proto_msgTypes = make([]protoimpl.MessageInfo, 3)

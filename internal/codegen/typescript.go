@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/sudorandom/protoc-gen-jev/internal/model"
+	"github.com/bufbuild/protoc-gen-jev/internal/model"
 	"google.golang.org/protobuf/compiler/protogen"
 )
 

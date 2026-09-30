@@ -9,8 +9,8 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	incidentv1 "github.com/sudorandom/protoc-gen-jev/examples/go/gen/incident/v1"
-	"github.com/sudorandom/protoc-gen-jev/pkg/jev"
+	incidentv1 "github.com/bufbuild/protoc-gen-jev/examples/go/gen/incident/v1"
+	"github.com/bufbuild/protoc-gen-jev/pkg/jev"
 	"github.com/testcontainers/testcontainers-go"
 	"github.com/testcontainers/testcontainers-go/wait"
 )

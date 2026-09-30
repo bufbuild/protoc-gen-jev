@@ -6,7 +6,7 @@ option features.default_symbol_visibility = EXPORT_ALL;
 
 package incident.v1;
 
-option go_package = "github.com/sudorandom/protoc-gen-jev/examples/go/gen/incident/v1;incidentv1";
+option go_package = "github.com/bufbuild/protoc-gen-jev/examples/go/gen/incident/v1;incidentv1";
 
 import "jev/v1/options.proto";
 import "jev/v1/response.proto";

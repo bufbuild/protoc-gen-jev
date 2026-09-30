@@ -10,9 +10,9 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/require"
-	contract "github.com/sudorandom/protoc-gen-jev/gen/jev/ai/contract/v1"
-	shared "github.com/sudorandom/protoc-gen-jev/gen/jev/ai/shared/v1"
-	"github.com/sudorandom/protoc-gen-jev/pkg/jev"
+	contract "github.com/bufbuild/protoc-gen-jev/gen/jev/ai/contract/v1"
+	shared "github.com/bufbuild/protoc-gen-jev/gen/jev/ai/shared/v1"
+	"github.com/bufbuild/protoc-gen-jev/pkg/jev"
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/proto"
 )

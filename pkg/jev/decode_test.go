@@ -7,7 +7,7 @@ import (
 	"github.com/stretchr/testify/require"
 	"google.golang.org/protobuf/encoding/protojson"
 
-	jevv1 "github.com/sudorandom/protoc-gen-jev/pkg/jev/v1"
+	jevv1 "github.com/bufbuild/protoc-gen-jev/pkg/jev/v1"
 )
 
 func TestDecode_Choice(t *testing.T) {

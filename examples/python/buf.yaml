@@ -2,4 +2,4 @@ version: v2
 modules:
   - path: proto
 deps:
-  - buf.build/sudo-random/protoc-gen-jev
+  - buf.build/bufbuild-experimental/protoc-gen-jev

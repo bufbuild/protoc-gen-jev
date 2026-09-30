@@ -8,7 +8,7 @@ import (
 	"google.golang.org/protobuf/compiler/protogen"
 	"google.golang.org/protobuf/types/gofeaturespb"
 
-	"github.com/sudorandom/protoc-gen-jev/internal/model"
+	"github.com/bufbuild/protoc-gen-jev/internal/model"
 )
 
 func GenerateGo(gen *protogen.Plugin, file *protogen.File, specs []model.MessageSpec, services []model.ServiceSpec) error {
@@ -19,7 +19,7 @@ func GenerateGo(gen *protogen.Plugin, file *protogen.File, specs []model.Message
 	g.P()
 	g.P("import (")
 	g.P(`	"context"`)
-	g.P(`	"github.com/sudorandom/protoc-gen-jev/pkg/jev"`)
+	g.P(`	"github.com/bufbuild/protoc-gen-jev/pkg/jev"`)
 	g.P(")")
 	g.P()
 	constructor := func(name string) {

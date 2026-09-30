@@ -10,8 +10,8 @@ import (
 	"github.com/stretchr/testify/require"
 	"google.golang.org/protobuf/encoding/protojson"
 
-	incidentv1 "github.com/sudorandom/protoc-gen-jev/examples/go/gen/incident/v1"
-	"github.com/sudorandom/protoc-gen-jev/pkg/jev"
+	incidentv1 "github.com/bufbuild/protoc-gen-jev/examples/go/gen/incident/v1"
+	"github.com/bufbuild/protoc-gen-jev/pkg/jev"
 )
 
 func ExampleJevIncidentTriageService() {

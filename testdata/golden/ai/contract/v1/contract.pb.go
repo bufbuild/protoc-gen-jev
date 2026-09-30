@@ -7,7 +7,7 @@
 package contractv1
 
 import (
-	v1 "github.com/sudorandom/protoc-gen-jev/gen/jev/ai/shared/v1"
+	v1 "github.com/bufbuild/protoc-gen-jev/gen/jev/ai/shared/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -417,7 +417,7 @@ const file_ai_contract_v1_contract_proto_rawDesc = "" +
 	"\n" +
 	"input_text\x18\x01 \x01(\tR\tinputText\x1a3\n" +
 	"\x0eNestedResponse\x12!\n" +
-	"\baccepted\x18\x01 \x01(\bB\x05\xaa\x01\x02\b\x01R\bacceptedBRZFgithub.com/sudorandom/protoc-gen-jev/gen/jev/ai/contract/v1;contractv1\x92\x03\a\xd2>\x02\x10\x01\b\x02b\beditionsp\xe9\a"
+	"\baccepted\x18\x01 \x01(\bB\x05\xaa\x01\x02\b\x01R\bacceptedBPZDgithub.com/bufbuild/protoc-gen-jev/gen/jev/ai/contract/v1;contractv1\x92\x03\a\xd2>\x02\x10\x01\b\x02b\beditionsp\xe9\a"
 
 var (
 	file_ai_contract_v1_contract_proto_rawDescOnce sync.Once

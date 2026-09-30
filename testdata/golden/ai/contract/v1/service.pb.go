@@ -7,7 +7,7 @@
 package contractv1
 
 import (
-	v1 "github.com/sudorandom/protoc-gen-jev/gen/jev/ai/shared/v1"
+	v1 "github.com/bufbuild/protoc-gen-jev/gen/jev/ai/shared/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -29,7 +29,7 @@ const file_ai_contract_v1_service_proto_rawDesc = "" +
 	"\x0fContractService\x12M\n" +
 	"\bEvaluate\x12\x1f.ai.contract.v1.EvaluateRequest\x1a .ai.contract.v1.EvaluateResponse\x12I\n" +
 	"\bExternal\x12\x1d.ai.shared.v1.ExternalRequest\x1a\x1e.ai.shared.v1.ExternalResponse\x12[\n" +
-	"\x06Nested\x12'.ai.contract.v1.Container.NestedRequest\x1a(.ai.contract.v1.Container.NestedResponseBRZFgithub.com/sudorandom/protoc-gen-jev/gen/jev/ai/contract/v1;contractv1\x92\x03\a\xd2>\x02\x10\x01\b\x02b\beditionsp\xe9\a"
+	"\x06Nested\x12'.ai.contract.v1.Container.NestedRequest\x1a(.ai.contract.v1.Container.NestedResponseBPZDgithub.com/bufbuild/protoc-gen-jev/gen/jev/ai/contract/v1;contractv1\x92\x03\a\xd2>\x02\x10\x01\b\x02b\beditionsp\xe9\a"
 
 var file_ai_contract_v1_service_proto_goTypes = []any{
 	(*EvaluateRequest)(nil),          // 0: ai.contract.v1.EvaluateRequest

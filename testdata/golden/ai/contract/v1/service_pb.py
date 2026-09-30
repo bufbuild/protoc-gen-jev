@@ -19,7 +19,7 @@ if TYPE_CHECKING:
 
 
 _DESC = file_desc(
-    b"\n\x1cai/contract/v1/service.proto\x12\x0eai.contract.v1\x1a\x1dai/contract/v1/contract.proto\x1a\x19ai/shared/v1/shared.proto2\x88\x02\n\x0fContractService\x12M\n\x08Evaluate\x12\x1f.ai.contract.v1.EvaluateRequest\x1a .ai.contract.v1.EvaluateResponse\x12I\n\x08External\x12\x1d.ai.shared.v1.ExternalRequest\x1a\x1e.ai.shared.v1.ExternalResponse\x12[\n\x06Nested\x12'.ai.contract.v1.Container.NestedRequest\x1a(.ai.contract.v1.Container.NestedResponseBTZFgithub.com/sudorandom/protoc-gen-jev/gen/jev/ai/contract/v1;contractv1\x92\x03\t\x08\x02@\x01\xd2>\x02\x10\x01b\x08editionsp\xe9\x07",
+    b"\n\x1cai/contract/v1/service.proto\x12\x0eai.contract.v1\x1a\x1dai/contract/v1/contract.proto\x1a\x19ai/shared/v1/shared.proto2\x88\x02\n\x0fContractService\x12M\n\x08Evaluate\x12\x1f.ai.contract.v1.EvaluateRequest\x1a .ai.contract.v1.EvaluateResponse\x12I\n\x08External\x12\x1d.ai.shared.v1.ExternalRequest\x1a\x1e.ai.shared.v1.ExternalResponse\x12[\n\x06Nested\x12'.ai.contract.v1.Container.NestedRequest\x1a(.ai.contract.v1.Container.NestedResponseBRZDgithub.com/bufbuild/protoc-gen-jev/gen/jev/ai/contract/v1;contractv1\x92\x03\t\x08\x02@\x01\xd2>\x02\x10\x01b\x08editionsp\xe9\x07",
     [
         contract_pb.desc(),
         shared_pb.desc(),

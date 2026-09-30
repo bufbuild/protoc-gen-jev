@@ -1027,7 +1027,7 @@ const file_jev_v1_response_proto_rawDesc = "" +
 	"\aanswers\x18\x03 \x03(\v2\x1d.jev.v1.Response.AnswersEntryR\aanswers\x1aJ\n" +
 	"\fAnswersEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12$\n" +
-	"\x05value\x18\x02 \x01(\v2\x0e.jev.v1.AnswerR\x05value:\x028\x01B<Z5github.com/sudorandom/protoc-gen-jev/pkg/jev/v1;jevv1\x92\x03\x02\b\x02b\beditionsp\xe9\a"
+	"\x05value\x18\x02 \x01(\v2\x0e.jev.v1.AnswerR\x05value:\x028\x01B:Z3github.com/bufbuild/protoc-gen-jev/pkg/jev/v1;jevv1\x92\x03\x02\b\x02b\beditionsp\xe9\a"
 
 var file_jev_v1_response_proto_msgTypes = make([]protoimpl.MessageInfo, 18)
 var file_jev_v1_response_proto_goTypes = []any{

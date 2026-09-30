@@ -11,8 +11,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	rulesv1 "github.com/sudorandom/protoc-gen-jev/gen/jev/ai/rules/v1"
-	"github.com/sudorandom/protoc-gen-jev/pkg/jev"
+	rulesv1 "github.com/bufbuild/protoc-gen-jev/gen/jev/ai/rules/v1"
+	"github.com/bufbuild/protoc-gen-jev/pkg/jev"
 )
 
 func TestGeneratedClient_BuildQuestions(t *testing.T) {

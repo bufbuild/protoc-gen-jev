@@ -9,7 +9,7 @@ import (
 
 	"google.golang.org/protobuf/proto"
 
-	jevv1 "github.com/sudorandom/protoc-gen-jev/pkg/jev/v1"
+	jevv1 "github.com/bufbuild/protoc-gen-jev/pkg/jev/v1"
 )
 
 // Decisions holds validated protobuf answers for generated clients to assign

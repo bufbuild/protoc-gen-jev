@@ -3,12 +3,12 @@
 package contractv1
 
 import (
-	v1 "github.com/sudorandom/protoc-gen-jev/gen/jev/ai/shared/v1"
+	v1 "github.com/bufbuild/protoc-gen-jev/gen/jev/ai/shared/v1"
 )
 
 import (
 	"context"
-	"github.com/sudorandom/protoc-gen-jev/pkg/jev"
+	"github.com/bufbuild/protoc-gen-jev/pkg/jev"
 )
 
 type JevContractService struct {

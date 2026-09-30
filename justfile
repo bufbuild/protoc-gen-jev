@@ -28,7 +28,7 @@ generate: build
 # Re-generate Go bindings for jev/v1 options
 generate-options:
 	@echo "Regenerating Go bindings for jev/v1/options.proto..."
-	buf generate proto --template '{"version":"v2","plugins":[{"local":"protoc-gen-go","out":".","opt":["module=github.com/sudorandom/protoc-gen-jev"]}]}'
+	buf generate proto --template '{"version":"v2","plugins":[{"local":"protoc-gen-go","out":".","opt":["module=github.com/bufbuild/protoc-gen-jev"]}]}'
 	@echo "✔ Options bindings regenerated."
 
 

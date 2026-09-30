@@ -1,7 +1,7 @@
 version: v2
 modules:
   - path: proto
-    name: buf.build/sudo-random/protoc-gen-jev
+    name: buf.build/bufbuild-experimental/protoc-gen-jev
   - path: testdata/proto
   - path: examples/go/proto
     lint:

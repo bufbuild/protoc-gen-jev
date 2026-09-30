@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 
-	"github.com/sudorandom/protoc-gen-jev/pkg/jev"
+	"github.com/bufbuild/protoc-gen-jev/pkg/jev"
 )
 
 func ExampleNewClient() {

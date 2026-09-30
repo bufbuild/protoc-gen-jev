@@ -12,7 +12,7 @@ import (
 	"google.golang.org/protobuf/types/descriptorpb"
 	"google.golang.org/protobuf/types/pluginpb"
 
-	"github.com/sudorandom/protoc-gen-jev/internal/parser"
+	"github.com/bufbuild/protoc-gen-jev/internal/parser"
 )
 
 func compileProto(t *testing.T, protoSrc string) *protogen.Plugin {

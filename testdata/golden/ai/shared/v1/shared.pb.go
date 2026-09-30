@@ -171,7 +171,7 @@ const file_ai_shared_v1_shared_proto_rawDesc = "" +
 	"\x06Status\x12\x16\n" +
 	"\x12STATUS_UNSPECIFIED\x10\x00\x12\x10\n" +
 	"\fSTATUS_READY\x10\x01\x12\x12\n" +
-	"\x0eSTATUS_BLOCKED\x10\x02BNZBgithub.com/sudorandom/protoc-gen-jev/gen/jev/ai/shared/v1;sharedv1\x92\x03\a\xd2>\x02\x10\x01\b\x02b\beditionsp\xe9\a"
+	"\x0eSTATUS_BLOCKED\x10\x02BLZ@github.com/bufbuild/protoc-gen-jev/gen/jev/ai/shared/v1;sharedv1\x92\x03\a\xd2>\x02\x10\x01\b\x02b\beditionsp\xe9\a"
 
 var (
 	file_ai_shared_v1_shared_proto_rawDescOnce sync.Once
