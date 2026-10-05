@@ -70,32 +70,64 @@ just test
   ```
   Verifies that all language examples in `examples/` compile cleanly against their generated code.
 
-## Running Examples
+## Running Examples and Decision Backends
 
-### 1. Automatic (Default)
+`protoc-gen-jev` generated clients communicate over the standard Jev wire protocol (`POST /v1/systemone`). This transport-agnostic design allows generated clients in Go, Python, and TypeScript to target any compliant decision model backend without code changes.
 
-To run the Go, Python, and TypeScript examples:
+### Decision Backends
 
-```sh
-just run-examples
-```
+#### 1. Jev (TypeSafe Cloud API)
 
-If `TYPESAFE_API_KEY` is set, the examples call the TypeSafe API. Otherwise the recipe uses the Laya server at `http://127.0.0.1:8000` if one is already running, or starts a temporary one (installing it into `.venv-laya` on first use) and stops it when the examples finish. Set `JEV_ENDPOINT` to point at any other server.
+- **Role**: TypeSafe's hosted, high-throughput non-autoregressive decision model API.
+- **Default Endpoint**: `https://api.typesafe.ai`
+- **Authentication**: Requires a TypeSafe API key passed via the `TYPESAFE_API_KEY` environment variable (or directly to client constructors).
+- **Usage**:
+  ```sh
+  export TYPESAFE_API_KEY="your-api-key"
+  just run-examples
+  ```
+- **Notes**: Suitable for production workloads and cloud-based evaluations.
 
-### 2. Local Laya Server
+#### 2. Laya (Local Decision Engine)
 
-To run against a local Laya evaluation server:
+- **Role**: Open-weights local decision model engine from TypeSafe.
+- **Default Endpoint**: `http://127.0.0.1:8000`
+- **Authentication**: None required for local evaluation.
+- **Setup & Start**:
+  ```sh
+  just setup-laya   # Creates .venv-laya and installs laya[serve]
+  just start-laya   # Starts the server in the foreground
+  ```
+- **Run Examples**:
+  ```sh
+  just run-examples-laya
+  ```
+- **Automatic Fallback**: If neither `TYPESAFE_API_KEY` nor `JEV_ENDPOINT` is set, `just run-examples` automatically connects to an existing Laya server at `http://127.0.0.1:8000` or provisions a temporary one in `.venv-laya`.
+- **Notes**: On first run, Laya downloads the model weights from Hugging Face, which may take several minutes depending on network bandwidth.
 
-1. In one terminal, start the Laya server:
-   ```sh
-   just start-laya
-   ```
-2. In another terminal, run the multi-language examples:
-   ```sh
-   just run-examples-laya
-   ```
+#### 3. Clef (Cloudflare Decision Models)
 
-Set `JEV_VERBOSE=1` for detailed question schemas and response JSON output.
+- **Role**: Cloudflare's non-autoregressive decision model architecture (see [Cloudflare Clef Decision Models](https://blog.cloudflare.com/clef-decision-models/)).
+- **Default Endpoint**: `http://127.0.0.1:8787` (local test server)
+- **Authentication**: None for the local test server; standard Cloudflare API tokens when querying live Workers AI endpoints.
+- **Start Local Server**:
+  ```sh
+  just start-clef
+  ```
+- **Run Examples**:
+  ```sh
+  just run-examples-clef
+  ```
+- **Notes**: Clef shares the identical decision primitives (`noul`, `choice`, `score`) and `/v1/systemone` JSON schema. The bundled [`testdata/clef_serve.py`](file:///Users/kevin/Projects/protoc-gen-jev/testdata/clef_serve.py) server provides a zero-dependency, rapid mock evaluator for local development and CI testing.
+
+### Environment Variables
+
+| Variable | Description |
+|---|---|
+| `TYPESAFE_API_KEY` | API key for the TypeSafe cloud Jev service. Omit when using local backends (Laya or Clef). |
+| `JEV_ENDPOINT` | Base URL for the decision server (e.g. `http://127.0.0.1:8000` for Laya, `http://127.0.0.1:8787` for Clef). |
+| `JEV_MODEL` | Override the model name requested (e.g. `jev-latest`, `clef`). |
+| `JEV_VERBOSE` | Set to `1` for detailed question schemas and raw response JSON output. |
 
 ## Golden Files
 

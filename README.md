@@ -180,6 +180,18 @@ Generate multiple targets simultaneously: `opt: [targets=go,targets=ts]`.
 
 ---
 
+## Supported Decision Backends
+
+Generated clients communicate over the standard Jev `/v1/systemone` wire protocol and can run against any compatible decision engine:
+
+- **[Jev](https://typesafe.ai)** (TypeSafe Cloud API): Hosted high-throughput decision model (`https://api.typesafe.ai`), configured via `TYPESAFE_API_KEY`.
+- **Laya** (Local Open Engine): Open-weights local evaluation server (`http://127.0.0.1:8000`) via `just start-laya` and `just run-examples-laya`.
+- **[Clef](https://blog.cloudflare.com/clef-decision-models/)** (Cloudflare Decision Models): Compatible with Cloudflare's non-autoregressive decision model architecture. Test locally via `just start-clef` and `just run-examples-clef`.
+
+See the [Development Guide](docs/development.md#running-examples-and-decision-backends) for full details on running examples and configuring endpoints.
+
+---
+
 ## Installation
 
 - **Pre-compiled Binary**: Download from [GitHub Releases](https://github.com/bufbuild/protoc-gen-jev/releases/latest) and place on `PATH`.

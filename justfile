@@ -72,57 +72,7 @@ test: generate test-syntax compile-examples test-behavior
 
 # Run end-to-end examples (Go, Python, TypeScript) against the TypeSafe API, or a local Laya server when TYPESAFE_API_KEY is unset
 run-examples: compile-examples
-	#!/usr/bin/env bash
-	set -euo pipefail
-	if [ -z "${TYPESAFE_API_KEY:-}" ] && [ -z "${JEV_ENDPOINT:-}" ]; then
-		LAYA_URL="http://127.0.0.1:8000"
-		if curl -fsS --max-time 3 "$LAYA_URL/health" >/dev/null 2>&1; then
-			echo "[INFO] TYPESAFE_API_KEY is not set; using the Laya server already running at $LAYA_URL."
-		else
-			echo "[INFO] TYPESAFE_API_KEY is not set; starting a temporary Laya server at $LAYA_URL..."
-			just --quiet setup-laya
-			LAYA_LOG=$(mktemp)
-			.venv-laya/bin/laya-serve --host 127.0.0.1 --port 8000 >"$LAYA_LOG" 2>&1 &
-			LAYA_PID=$!
-			cleanup() {
-				echo "[INFO] Stopping temporary Laya server..."
-				kill "$LAYA_PID" >/dev/null 2>&1 || true
-				rm -f "$LAYA_LOG"
-			}
-			trap cleanup EXIT INT TERM
-			# The first start downloads model weights, which can take several minutes.
-			LAYA_TIMEOUT="${LAYA_STARTUP_TIMEOUT:-600}"
-			echo "[INFO] Waiting up to ${LAYA_TIMEOUT}s for Laya to become healthy (first start downloads model weights)..."
-			for (( waited=0; waited < LAYA_TIMEOUT; waited++ )); do
-				if curl -fsS --max-time 1 "$LAYA_URL/health" >/dev/null 2>&1; then
-					break
-				fi
-				if ! kill -0 "$LAYA_PID" 2>/dev/null; then
-					echo "Laya server exited before becoming healthy:" >&2
-					cat "$LAYA_LOG" >&2
-					exit 1
-				fi
-				sleep 1
-			done
-			if ! curl -fsS --max-time 3 "$LAYA_URL/health" >/dev/null 2>&1; then
-				echo "Laya server did not become healthy within ${LAYA_TIMEOUT}s:" >&2
-				cat "$LAYA_LOG" >&2
-				exit 1
-			fi
-		fi
-		export JEV_ENDPOINT="$LAYA_URL"
-	fi
-
-	echo "=== Running Go Example ==="
-	go run examples/go/main.go
-	echo ""
-	echo "=== Running Python Example ==="
-	uv run python examples/python/main.py
-	echo ""
-	echo "=== Running TypeScript Example ==="
-	NODE_PATH="{{ justfile_directory() }}/examples/typescript/node_modules" npx --prefix examples/typescript tsx examples/typescript/index.ts
-	echo ""
-	echo "✔ All language examples completed successfully!"
+	./scripts/run-examples.sh
 
 # Setup local Laya environment in .venv-laya
 setup-laya:
@@ -141,30 +91,24 @@ start-laya: setup-laya
 
 # Run multi-language examples targeting a running local Laya server
 run-examples-laya:
-	#!/usr/bin/env bash
-	set -euo pipefail
-	if ! curl -fsS --max-time 3 http://127.0.0.1:8000/health >/dev/null 2>&1; then
-	    echo "Laya is not running at http://127.0.0.1:8000. Start it with: just start-laya" >&2
-	    exit 1
+	@if ! curl -fsS --max-time 2 http://127.0.0.1:8000/health >/dev/null 2>&1; then \
+		echo "Laya is not running at http://127.0.0.1:8000. Start it with: just start-laya" >&2; \
+		exit 1; \
 	fi
-	echo "Laya · http://127.0.0.1:8000"
-	echo "Preparing examples…"
-	setup_log=$(mktemp)
-	trap 'rm -f "$setup_log"' EXIT
-	if ! just --quiet compile-examples >"$setup_log" 2>&1; then
-	    echo "Example preparation failed:" >&2
-	    cat "$setup_log" >&2
-	    exit 1
+	JEV_ENDPOINT="http://127.0.0.1:8000" just run-examples
+
+# Start local Clef test server on port 8787
+start-clef:
+	@echo "Starting Clef test server on http://127.0.0.1:8787 ..."
+	python3 testdata/clef_serve.py --host 127.0.0.1 --port 8787
+
+# Run multi-language examples targeting a running local Clef server
+run-examples-clef:
+	@if ! curl -fsS --max-time 2 http://127.0.0.1:8787/health >/dev/null 2>&1; then \
+		echo "Clef server is not running at http://127.0.0.1:8787. Start it with: just start-clef" >&2; \
+		exit 1; \
 	fi
-	if [ "${JEV_VERBOSE:-}" = "1" ]; then cat "$setup_log"; fi
-	echo
-	JEV_ENDPOINT="http://127.0.0.1:8000" go run examples/go/main.go
-	echo
-	JEV_ENDPOINT="http://127.0.0.1:8000" .venv/bin/python examples/python/main.py
-	echo
-	JEV_ENDPOINT="http://127.0.0.1:8000" NODE_PATH="{{ justfile_directory() }}/examples/typescript/node_modules" ./examples/typescript/node_modules/.bin/tsx examples/typescript/index.ts
-	echo
-	echo "Completed: Go, Python, TypeScript · 4 incidents each"
+	JEV_ENDPOINT="http://127.0.0.1:8787" just run-examples
 
 
 # Update golden files with newly generated files
