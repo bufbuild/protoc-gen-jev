@@ -186,7 +186,7 @@ Generated clients communicate over the standard Jev `/v1/systemone` wire protoco
 
 - **[Jev](https://typesafe.ai)** (TypeSafe Cloud API): Hosted high-throughput decision model (`https://api.typesafe.ai`), configured via `TYPESAFE_API_KEY`.
 - **Laya** (Local Open Engine): Open-weights local evaluation server (`http://127.0.0.1:8000`) via `just start-laya` and `just run-examples-laya`.
-- **[Clef](https://blog.cloudflare.com/clef-decision-models/)** (Cloudflare Workers AI): Cloudflare's open-weight decision models, served at `@cf/cloudflare/clef` and `@cf/cloudflare/clef-flash`. The Go client targets them directly; run `just run-examples-clef` after `wrangler login`.
+- **[Clef](https://blog.cloudflare.com/clef-decision-models/)** (Cloudflare Workers AI): Cloudflare's open-weight decision models, served at `@cf/cloudflare/clef-omni`, `@cf/cloudflare/clef`, and `@cf/cloudflare/clef-flash`. The Go client targets them directly; run `just run-examples-clef` after `wrangler login`.
 
 See the [Development Guide](docs/development.md#running-examples-and-decision-backends) for full details on running examples and configuring endpoints.
 

@@ -107,13 +107,13 @@ just test
 
 #### 3. Clef (Cloudflare Workers AI)
 
-- **Role**: Cloudflare's open-weight decision models, [Clef and Clef-flash](https://blog.cloudflare.com/clef-decision-models/), hosted on [Workers AI](https://developers.cloudflare.com/workers-ai/models/clef/). The request and response bodies match Jev, but Workers AI serves them at `/client/v4/accounts/{account}/ai/run/@cf/cloudflare/{model}` and wraps the response in a `result` envelope.
-- **Endpoint**: `https://api.cloudflare.com/client/v4/accounts/<ACCOUNT_ID>/ai/run/@cf/cloudflare/clef` (or `clef-flash`)
+- **Role**: Cloudflare's open-weight decision models, [Clef and Clef-flash](https://blog.cloudflare.com/clef-decision-models/) and the multimodal [Clef-omni](https://blog.cloudflare.com/clef-faster-cheaper-multimodal/), hosted on [Workers AI](https://developers.cloudflare.com/workers-ai/models/clef/). The request and response bodies match Jev, but Workers AI serves them at `/client/v4/accounts/{account}/ai/run/@cf/cloudflare/{model}` and wraps the response in a `result` envelope.
+- **Endpoint**: `https://api.cloudflare.com/client/v4/accounts/<ACCOUNT_ID>/ai/run/@cf/cloudflare/clef-omni` (or `clef`, `clef-flash`)
 - **Authentication**: A Cloudflare API token with Workers AI access. `scripts/run-examples-clef.sh` uses `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` when set, and otherwise asks the Cloudflare CLI for the token (`wrangler auth token --json`) and looks up the account with the Cloudflare accounts API.
 - **Run Examples**:
   ```sh
   wrangler login              # once, unless CLOUDFLARE_API_TOKEN is set
-  just run-examples-clef      # @cf/cloudflare/clef
+  just run-examples-clef      # @cf/cloudflare/clef-omni
   just run-examples-clef clef-flash
   ```
 - **Notes**: Only the Go example runs against Clef. The Go client in `pkg/jev` recognises a Workers AI URL in `BaseURL`, sends the model named by that URL, and unwraps the envelope. The TypeSafe Python and TypeScript SDKs hardcode the `/v1/systemone` path and parse the bare response, so they cannot target Workers AI without a proxy. Workers AI bills Clef per input token; see the model page for pricing.

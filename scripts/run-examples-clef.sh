@@ -12,7 +12,7 @@ set -euo pipefail
 DIR="$(CDPATH= cd "$(dirname "${0}")/.." && pwd)"
 cd "${DIR}"
 
-: "${CLEF_MODEL:=clef}"
+: "${CLEF_MODEL:=clef-omni}"
 : "${CLOUDFLARE_API_TOKEN:=}"
 : "${CLOUDFLARE_ACCOUNT_ID:=}"
 

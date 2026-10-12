@@ -98,7 +98,7 @@ run-examples-laya:
 	JEV_ENDPOINT="http://127.0.0.1:8000" just run-examples
 
 # Run the Go example against Clef on Cloudflare Workers AI (token from `wrangler login` or CLOUDFLARE_API_TOKEN)
-run-examples-clef model="clef": compile-examples
+run-examples-clef model="clef-omni": compile-examples
 	CLEF_MODEL="{{ model }}" ./scripts/run-examples-clef.sh
 
 
