@@ -105,28 +105,27 @@ just test
 - **Automatic Fallback**: If neither `TYPESAFE_API_KEY` nor `JEV_ENDPOINT` is set, `just run-examples` automatically connects to an existing Laya server at `http://127.0.0.1:8000` or provisions a temporary one in `.venv-laya`.
 - **Notes**: On first run, Laya downloads the model weights from Hugging Face, which may take several minutes depending on network bandwidth.
 
-#### 3. Clef (Cloudflare Decision Models)
+#### 3. Clef (Cloudflare Workers AI)
 
-- **Role**: Cloudflare's non-autoregressive decision model architecture (see [Cloudflare Clef Decision Models](https://blog.cloudflare.com/clef-decision-models/)).
-- **Default Endpoint**: `http://127.0.0.1:8787` (local test server)
-- **Authentication**: None for the local test server; standard Cloudflare API tokens when querying live Workers AI endpoints.
-- **Start Local Server**:
-  ```sh
-  just start-clef
-  ```
+- **Role**: Cloudflare's open-weight decision models, [Clef and Clef-flash](https://blog.cloudflare.com/clef-decision-models/), hosted on [Workers AI](https://developers.cloudflare.com/workers-ai/models/clef/). The request and response bodies match Jev, but Workers AI serves them at `/client/v4/accounts/{account}/ai/run/@cf/cloudflare/{model}` and wraps the response in a `result` envelope.
+- **Endpoint**: `https://api.cloudflare.com/client/v4/accounts/<ACCOUNT_ID>/ai/run/@cf/cloudflare/clef` (or `clef-flash`)
+- **Authentication**: A Cloudflare API token with Workers AI access. `scripts/run-examples-clef.sh` uses `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` when set, and otherwise asks the Cloudflare CLI for the token (`wrangler auth token --json`) and looks up the account with the Cloudflare accounts API.
 - **Run Examples**:
   ```sh
-  just run-examples-clef
+  wrangler login              # once, unless CLOUDFLARE_API_TOKEN is set
+  just run-examples-clef      # @cf/cloudflare/clef
+  just run-examples-clef clef-flash
   ```
-- **Notes**: Clef shares the identical decision primitives (`noul`, `choice`, `score`) and `/v1/systemone` JSON schema. The bundled [`testdata/clef_serve.py`](file:///Users/kevin/Projects/protoc-gen-jev/testdata/clef_serve.py) server provides a zero-dependency, rapid mock evaluator for local development and CI testing.
+- **Notes**: Only the Go example runs against Clef. The Go client in `pkg/jev` recognises a Workers AI URL in `BaseURL`, sends the model named by that URL, and unwraps the envelope. The TypeSafe Python and TypeScript SDKs hardcode the `/v1/systemone` path and parse the bare response, so they cannot target Workers AI without a proxy. Workers AI bills Clef per input token; see the model page for pricing.
 
 ### Environment Variables
 
 | Variable | Description |
 |---|---|
-| `TYPESAFE_API_KEY` | API key for the TypeSafe cloud Jev service. Omit when using local backends (Laya or Clef). |
-| `JEV_ENDPOINT` | Base URL for the decision server (e.g. `http://127.0.0.1:8000` for Laya, `http://127.0.0.1:8787` for Clef). |
-| `JEV_MODEL` | Override the model name requested (e.g. `jev-latest`, `clef`). |
+| `TYPESAFE_API_KEY` | Bearer token for the decision server: a TypeSafe API key for Jev, or a Cloudflare API token for Clef. Omit for Laya. |
+| `JEV_ENDPOINT` | Base URL for the decision server (e.g. `http://127.0.0.1:8000` for Laya, or a Workers AI model URL for Clef). |
+| `CLOUDFLARE_API_TOKEN` | Cloudflare API token used by `just run-examples-clef`. When unset, the token comes from `wrangler auth token`. |
+| `CLOUDFLARE_ACCOUNT_ID` | Cloudflare account for `just run-examples-clef`. When unset, the single account visible to the token is used. |
 | `JEV_VERBOSE` | Set to `1` for detailed question schemas and raw response JSON output. |
 
 ## Golden Files

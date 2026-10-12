@@ -97,18 +97,9 @@ run-examples-laya:
 	fi
 	JEV_ENDPOINT="http://127.0.0.1:8000" just run-examples
 
-# Start local Clef test server on port 8787
-start-clef:
-	@echo "Starting Clef test server on http://127.0.0.1:8787 ..."
-	python3 testdata/clef_serve.py --host 127.0.0.1 --port 8787
-
-# Run multi-language examples targeting a running local Clef server
-run-examples-clef:
-	@if ! curl -fsS --max-time 2 http://127.0.0.1:8787/health >/dev/null 2>&1; then \
-		echo "Clef server is not running at http://127.0.0.1:8787. Start it with: just start-clef" >&2; \
-		exit 1; \
-	fi
-	JEV_ENDPOINT="http://127.0.0.1:8787" just run-examples
+# Run the Go example against Clef on Cloudflare Workers AI (token from `wrangler login` or CLOUDFLARE_API_TOKEN)
+run-examples-clef model="clef": compile-examples
+	CLEF_MODEL="{{ model }}" ./scripts/run-examples-clef.sh
 
 
 # Update golden files with newly generated files

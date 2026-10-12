@@ -59,6 +59,16 @@ func TestClient_EndpointURL(t *testing.T) {
 			baseURL:  "https://gateway.internal/ai",
 			expected: "https://gateway.internal/ai/v1/systemone",
 		},
+		{
+			name:     "workers ai model URL is used as is",
+			baseURL:  "https://api.cloudflare.com/client/v4/accounts/abc123/ai/run/@cf/cloudflare/clef",
+			expected: "https://api.cloudflare.com/client/v4/accounts/abc123/ai/run/@cf/cloudflare/clef",
+		},
+		{
+			name:     "workers ai model URL with trailing slash",
+			baseURL:  "https://api.cloudflare.com/client/v4/accounts/abc123/ai/run/@cf/cloudflare/clef-flash/",
+			expected: "https://api.cloudflare.com/client/v4/accounts/abc123/ai/run/@cf/cloudflare/clef-flash",
+		},
 	}
 
 	for _, tt := range tests {
@@ -162,6 +172,68 @@ func TestClient_Evaluate_HeadersAndModel(t *testing.T) {
 	assert.Equal(t, "application/json", capturedContentType)
 	assert.Equal(t, "custom-model", capturedBody["model"])
 	assert.Equal(t, map[string]any{"key": "value"}, capturedBody["state"])
+}
+
+func TestClient_Evaluate_WorkersAI(t *testing.T) {
+	t.Parallel()
+	var capturedPath string
+	var capturedAuth string
+	var capturedBody map[string]any
+
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		capturedPath = r.URL.Path
+		capturedAuth = r.Header.Get("Authorization")
+		_ = json.NewDecoder(r.Body).Decode(&capturedBody)
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		_, _ = w.Write([]byte(`{
+			"result": {
+				"model": "clef",
+				"answers": {"urgent": {"type": "noul", "noul": 0.91, "confidence": 0.82}},
+				"usage": {"input_tokens": 12, "output_tokens": 0}
+			},
+			"success": true,
+			"errors": [],
+			"messages": []
+		}`))
+	}))
+	defer server.Close()
+
+	c := NewClient("cloudflare-token")
+	c.BaseURL = server.URL + "/client/v4/accounts/abc123/ai/run/@cf/cloudflare/clef-flash"
+	c.Model = "ignored-for-workers-ai"
+	c.HTTPClient = server.Client()
+
+	rules := []Question{{Name: "urgent", Type: "noul", Field: "urgent", Threshold: 0.7}}
+	decisions, err := c.Evaluate(context.Background(), map[string]any{"subject": "checkout is down"}, rules)
+	require.NoError(t, err)
+
+	assert.Equal(t, "/client/v4/accounts/abc123/ai/run/@cf/cloudflare/clef-flash", capturedPath)
+	assert.Equal(t, "Bearer cloudflare-token", capturedAuth)
+	assert.Equal(t, "clef-flash", capturedBody["model"])
+	require.Contains(t, decisions.Nouls, "urgent")
+	assert.True(t, decisions.Nouls["urgent"].GetValue())
+	assert.InDelta(t, 0.91, decisions.Nouls["urgent"].GetProbability(), 1e-9)
+	assert.Equal(t, "clef", decisions.Meta.GetModel())
+}
+
+func TestClient_Evaluate_WorkersAIFailureEnvelope(t *testing.T) {
+	t.Parallel()
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		_, _ = w.Write([]byte(`{"result": null, "success": false, "errors": [{"code": 10000, "message": "Authentication error"}], "messages": []}`))
+	}))
+	defer server.Close()
+
+	c := NewClient("bad-token")
+	c.BaseURL = server.URL + "/client/v4/accounts/abc123/ai/run/@cf/cloudflare/clef"
+	c.HTTPClient = server.Client()
+
+	_, err := c.Evaluate(context.Background(), map[string]any{"subject": "hi"}, nil)
+	require.Error(t, err)
+	assert.Contains(t, err.Error(), "workers ai request failed")
+	assert.Contains(t, err.Error(), "10000: Authentication error")
 }
 
 func TestClient_Evaluate_OmitAuthWhenKeyEmpty(t *testing.T) {

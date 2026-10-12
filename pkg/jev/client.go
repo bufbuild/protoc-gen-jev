@@ -59,10 +59,20 @@ func Questions(rules []Question) map[string]any {
 	return out
 }
 
+// workersAIRunPath marks a Cloudflare Workers AI model URL such as
+// https://api.cloudflare.com/client/v4/accounts/{account}/ai/run/@cf/cloudflare/clef.
+const workersAIRunPath = "/ai/run/"
+
 // Client executes decision evaluations against the Jev API.
 type Client struct {
-	APIKey     string
-	BaseURL    string
+	// APIKey is sent as a bearer token. For Workers AI it is a Cloudflare API token.
+	APIKey string
+	// BaseURL is the API root; the Jev path /v1/systemone is appended unless
+	// present. A Cloudflare Workers AI model URL (containing /ai/run/) is used
+	// as is, and the response envelope is unwrapped automatically.
+	BaseURL string
+	// Model is the model requested in the payload. It is ignored for Workers AI,
+	// where the model is the last segment of BaseURL.
 	Model      string
 	HTTPClient *http.Client
 }
@@ -83,10 +93,23 @@ func (c *Client) endpointURL() string {
 		base = "https://api.typesafe.ai"
 	}
 	base = strings.TrimRight(base, "/")
-	if strings.HasSuffix(base, "/v1/systemone") {
+	if strings.HasSuffix(base, "/v1/systemone") || isWorkersAIURL(base) {
 		return base
 	}
 	return base + "/v1/systemone"
+}
+
+// modelName returns the model to request: the Workers AI URL's model for
+// Workers AI endpoints, otherwise the configured model or the Jev default.
+func (c *Client) modelName() string {
+	endpoint := c.endpointURL()
+	if isWorkersAIURL(endpoint) {
+		return endpoint[strings.LastIndex(endpoint, "/")+1:]
+	}
+	if c.Model == "" {
+		return "jev-latest"
+	}
+	return c.Model
 }
 
 // Evaluate sends a request to Jev and returns validated protobuf decisions.
@@ -104,10 +127,7 @@ func (c *Client) Evaluate(ctx context.Context, state any, rules []Question) (*De
 		}
 		state = json.RawMessage(b)
 	}
-	model := c.Model
-	if model == "" {
-		model = "jev-latest"
-	}
+	model := c.modelName()
 	httpClient := c.HTTPClient
 	if httpClient == nil {
 		httpClient = &http.Client{Timeout: 30 * time.Second}
@@ -140,6 +160,12 @@ func (c *Client) Evaluate(ctx context.Context, state any, rules []Question) (*De
 	if resp.StatusCode != http.StatusOK {
 		return nil, fmt.Errorf("jev API returned error status %d: %s", resp.StatusCode, body)
 	}
+	if isWorkersAIURL(c.endpointURL()) {
+		body, err = unwrapWorkersAIEnvelope(body)
+		if err != nil {
+			return nil, err
+		}
+	}
 	return Decode(body, rules)
 }
 
@@ -154,4 +180,38 @@ func Batch[Req any, Res any](ctx context.Context, reqs []Req, fn func(context.Co
 		results[i] = val
 	}
 	return results, nil
+}
+
+// workersAIEnvelope is the wrapper Cloudflare Workers AI puts around a Jev response.
+type workersAIEnvelope struct {
+	Result  json.RawMessage `json:"result"`
+	Success bool            `json:"success"`
+	Errors  []struct {
+		Code    int    `json:"code"`
+		Message string `json:"message"`
+	} `json:"errors"`
+}
+
+// isWorkersAIURL reports whether the URL addresses a Cloudflare Workers AI model.
+func isWorkersAIURL(url string) bool {
+	return strings.Contains(url, workersAIRunPath)
+}
+
+// unwrapWorkersAIEnvelope extracts the Jev response from a Workers AI envelope.
+func unwrapWorkersAIEnvelope(body []byte) ([]byte, error) {
+	var envelope workersAIEnvelope
+	if err := json.Unmarshal(body, &envelope); err != nil {
+		return nil, fmt.Errorf("failed to decode Workers AI envelope: %w", err)
+	}
+	if !envelope.Success {
+		messages := make([]string, 0, len(envelope.Errors))
+		for _, apiError := range envelope.Errors {
+			messages = append(messages, fmt.Sprintf("%d: %s", apiError.Code, apiError.Message))
+		}
+		return nil, fmt.Errorf("workers ai request failed: %s", strings.Join(messages, "; "))
+	}
+	if len(envelope.Result) == 0 {
+		return nil, fmt.Errorf("workers ai response has no result")
+	}
+	return envelope.Result, nil
 }

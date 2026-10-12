@@ -10,3 +10,4 @@ uv = "latest"
 protobuf = "29.3"
 "npm:@bufbuild/protoc-gen-es" = "2.15.0"
 "go:google.golang.org/protobuf/cmd/protoc-gen-go" = "1.36.12"
+wrangler = { version = "latest", allow_builds = ["esbuild", "sharp", "workerd"] }
