@@ -2,14 +2,6 @@
 
 For installation and a first example, see the [README](../README.md).
 
-## Protobuf edition
-
-Repository schemas use `edition = "2024"`. Existing scalar fields retain implicit presence via `features.field_presence = IMPLICIT`; fields that previously used `optional` now use `features.field_presence = EXPLICIT`. New Edition 2024 schemas use explicit presence by default and do not use the `optional` keyword.
-
-Jev's types and the incident examples use Edition 2024's default Go Opaque API. The custom JSON unmarshaler populates messages through setters; generated clients use setters for opaque application responses and direct assignments for Open API responses. Open API schemas remain in the compatibility fixtures.
-
-`features.default_symbol_visibility = EXPORT_ALL` preserves cross-file use of nested messages. Proto3 remains covered by compatibility tests.
-
 ## Generator options
 
 Targets are `go`, `ts`/`typescript`, `python`/`py`, `json`, or `all` (the default). JSON specifications accompany language output. Repeat the option to combine languages: `targets=go,targets=ts`. Unknown targets are errors.

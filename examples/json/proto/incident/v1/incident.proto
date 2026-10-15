@@ -1,8 +1,4 @@
-edition = "2024";
-
-// Preserve implicit presence except where explicitly enabled on a field.
-option features.field_presence = IMPLICIT;
-option features.default_symbol_visibility = EXPORT_ALL;
+syntax = "proto3";
 
 package incident.v1;
 

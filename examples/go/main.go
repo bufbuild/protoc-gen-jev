@@ -53,12 +53,12 @@ func main() {
 	logf("\n1. Built Jev Questions (%d total):\n%s\n", len(questions), string(qJSON))
 
 	// 2. Detailed decisions: use the returned protobuf fields directly.
-	req := (incidentv1.TriageRequest_builder{
+	req := &incidentv1.TriageRequest{
 		IncidentId:  "INC-8891",
 		Title:       "Database connection pool exhausted",
 		Description: "API latency increased to 4500ms and 500 errors spike to 12%",
 		RawLogs:     "Connection refused on port 5432 after 100 pool max connections",
-	}).Build()
+	}
 
 	logln("\n2. Evaluating Single Incident State...")
 	ctx := context.Background()
@@ -74,24 +74,24 @@ func main() {
 	// 3. Scalar decisions: the batch method returns ordinary bool/enum/numeric fields.
 	logln("\n3. Batch Evaluating 3 Incident States...")
 	batchReqs := []*incidentv1.TriageRequest{
-		(incidentv1.TriageRequest_builder{
+		{
 			IncidentId:  "INC-8892",
 			Title:       "Ingress 502 bad gateway spikes across region us-east-1",
 			Description: "Edge proxy reports connection reset by peer from upstream cluster",
 			RawLogs:     "HTTP 502 Bad Gateway - upstream connect error or disconnect/reset before headers",
-		}).Build(),
-		(incidentv1.TriageRequest_builder{
+		},
+		{
 			IncidentId:  "INC-8893",
 			Title:       "Low-priority deprecation warning logged in analytics service",
 			Description: "Client library using deprecated v1 query endpoint; scheduled for removal in Q3",
 			RawLogs:     "WARN [analytics-worker] Endpoint /v1/query is deprecated, migrate to /v2/query",
-		}).Build(),
-		(incidentv1.TriageRequest_builder{
+		},
+		{
 			IncidentId:  "INC-8894",
 			Title:       "Routine memory compaction completed without customer impact",
 			Description: "Background compaction cycle reclaimed 4.2GB memory; latency within SLO",
 			RawLogs:     "INFO [compactor] Compaction cycle finished in 45s, 0 errors, 4200MB reclaimed",
-		}).Build(),
+		},
 	}
 
 	batchDecisions, err := client.BatchTriage(ctx, batchReqs)
@@ -128,13 +128,13 @@ func printDecision(id string, d *incidentv1.TriageResponse) {
 }
 
 func routingTarget(d *incidentv1.TriageResponse) string {
-	switch {
-	case d.HasAutomatedRunbook():
-		return d.GetAutomatedRunbook()
-	case d.HasOncallEngineer():
-		return d.GetOncallEngineer()
-	case d.HasIncidentCommander():
-		return d.GetIncidentCommander()
+	switch target := d.GetRoutingTarget().(type) {
+	case *incidentv1.TriageResponse_AutomatedRunbook:
+		return target.AutomatedRunbook
+	case *incidentv1.TriageResponse_OncallEngineer:
+		return target.OncallEngineer
+	case *incidentv1.TriageResponse_IncidentCommander:
+		return target.IncidentCommander
 	default:
 		return "none"
 	}

@@ -11,6 +11,7 @@ import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
+	sync "sync"
 	unsafe "unsafe"
 )
 
@@ -71,16 +72,35 @@ func (x PriorityLevel) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
+// Deprecated: Use PriorityLevel.Descriptor instead.
+func (PriorityLevel) EnumDescriptor() ([]byte, []int) {
+	return file_incident_v1_incident_proto_rawDescGZIP(), []int{0}
+}
+
 type TriageResponse struct {
-	state                               protoimpl.MessageState         `protogen:"opaque.v1"`
-	xxx_hidden_RoutingTarget            isTriageResponse_RoutingTarget `protobuf_oneof:"routing_target"`
-	xxx_hidden_RequiresImmediatePaging  bool                           `protobuf:"varint,4,opt,name=requires_immediate_paging,json=requiresImmediatePaging"`
-	xxx_hidden_Priority                 PriorityLevel                  `protobuf:"varint,5,opt,name=priority,enum=incident.v1.PriorityLevel"`
-	xxx_hidden_UrgencyRating            int32                          `protobuf:"varint,6,opt,name=urgency_rating,json=urgencyRating"`
-	xxx_hidden_BlastRadiusPercentage    float32                        `protobuf:"fixed32,7,opt,name=blast_radius_percentage,json=blastRadiusPercentage"`
-	xxx_hidden_ComplianceClassification string                         `protobuf:"bytes,8,opt,name=compliance_classification,json=complianceClassification"`
-	unknownFields                       protoimpl.UnknownFields
-	sizeCache                           protoimpl.SizeCache
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// 1. Oneof mutual exclusion -> Jev Choice question
+	// Jev selects the single most appropriate routing target based on input context.
+	//
+	// Types that are valid to be assigned to RoutingTarget:
+	//
+	//	*TriageResponse_AutomatedRunbook
+	//	*TriageResponse_OncallEngineer
+	//	*TriageResponse_IncidentCommander
+	RoutingTarget isTriageResponse_RoutingTarget `protobuf_oneof:"routing_target"`
+	// 2. Boolean field -> Jev Noul question
+	// Evaluates binary intent with a calibrated confidence threshold (0.0 - 1.0).
+	RequiresImmediatePaging bool `protobuf:"varint,4,opt,name=requires_immediate_paging,json=requiresImmediatePaging,proto3" json:"requires_immediate_paging,omitempty"`
+	// 3. Enum field with criteria guidance -> Jev Choice question
+	Priority PriorityLevel `protobuf:"varint,5,opt,name=priority,proto3,enum=incident.v1.PriorityLevel" json:"priority,omitempty"`
+	// 4. Bounded integer range -> Jev Score with explicit rubric levels
+	UrgencyRating int32 `protobuf:"varint,6,opt,name=urgency_rating,json=urgencyRating,proto3" json:"urgency_rating,omitempty"`
+	// 5. Continuous numeric scale -> Jev Score with explicit rubric tiers
+	BlastRadiusPercentage float32 `protobuf:"fixed32,7,opt,name=blast_radius_percentage,json=blastRadiusPercentage,proto3" json:"blast_radius_percentage,omitempty"`
+	// 6. String with discrete allowed choices -> Jev Choice question
+	ComplianceClassification string `protobuf:"bytes,8,opt,name=compliance_classification,json=complianceClassification,proto3" json:"compliance_classification,omitempty"`
+	unknownFields            protoimpl.UnknownFields
+	sizeCache                protoimpl.SizeCache
 }
 
 func (x *TriageResponse) Reset() {
@@ -108,9 +128,21 @@ func (x *TriageResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
+// Deprecated: Use TriageResponse.ProtoReflect.Descriptor instead.
+func (*TriageResponse) Descriptor() ([]byte, []int) {
+	return file_incident_v1_incident_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *TriageResponse) GetRoutingTarget() isTriageResponse_RoutingTarget {
+	if x != nil {
+		return x.RoutingTarget
+	}
+	return nil
+}
+
 func (x *TriageResponse) GetAutomatedRunbook() string {
 	if x != nil {
-		if x, ok := x.xxx_hidden_RoutingTarget.(*triageResponse_AutomatedRunbook); ok {
+		if x, ok := x.RoutingTarget.(*TriageResponse_AutomatedRunbook); ok {
 			return x.AutomatedRunbook
 		}
 	}
@@ -119,7 +151,7 @@ func (x *TriageResponse) GetAutomatedRunbook() string {
 
 func (x *TriageResponse) GetOncallEngineer() string {
 	if x != nil {
-		if x, ok := x.xxx_hidden_RoutingTarget.(*triageResponse_OncallEngineer); ok {
+		if x, ok := x.RoutingTarget.(*TriageResponse_OncallEngineer); ok {
 			return x.OncallEngineer
 		}
 	}
@@ -128,7 +160,7 @@ func (x *TriageResponse) GetOncallEngineer() string {
 
 func (x *TriageResponse) GetIncidentCommander() string {
 	if x != nil {
-		if x, ok := x.xxx_hidden_RoutingTarget.(*triageResponse_IncidentCommander); ok {
+		if x, ok := x.RoutingTarget.(*TriageResponse_IncidentCommander); ok {
 			return x.IncidentCommander
 		}
 	}
@@ -137,234 +169,81 @@ func (x *TriageResponse) GetIncidentCommander() string {
 
 func (x *TriageResponse) GetRequiresImmediatePaging() bool {
 	if x != nil {
-		return x.xxx_hidden_RequiresImmediatePaging
+		return x.RequiresImmediatePaging
 	}
 	return false
 }
 
 func (x *TriageResponse) GetPriority() PriorityLevel {
 	if x != nil {
-		return x.xxx_hidden_Priority
+		return x.Priority
 	}
 	return PriorityLevel_PRIORITY_LEVEL_UNSPECIFIED
 }
 
 func (x *TriageResponse) GetUrgencyRating() int32 {
 	if x != nil {
-		return x.xxx_hidden_UrgencyRating
+		return x.UrgencyRating
 	}
 	return 0
 }
 
 func (x *TriageResponse) GetBlastRadiusPercentage() float32 {
 	if x != nil {
-		return x.xxx_hidden_BlastRadiusPercentage
+		return x.BlastRadiusPercentage
 	}
 	return 0
 }
 
 func (x *TriageResponse) GetComplianceClassification() string {
 	if x != nil {
-		return x.xxx_hidden_ComplianceClassification
+		return x.ComplianceClassification
 	}
 	return ""
-}
-
-func (x *TriageResponse) SetAutomatedRunbook(v string) {
-	x.xxx_hidden_RoutingTarget = &triageResponse_AutomatedRunbook{v}
-}
-
-func (x *TriageResponse) SetOncallEngineer(v string) {
-	x.xxx_hidden_RoutingTarget = &triageResponse_OncallEngineer{v}
-}
-
-func (x *TriageResponse) SetIncidentCommander(v string) {
-	x.xxx_hidden_RoutingTarget = &triageResponse_IncidentCommander{v}
-}
-
-func (x *TriageResponse) SetRequiresImmediatePaging(v bool) {
-	x.xxx_hidden_RequiresImmediatePaging = v
-}
-
-func (x *TriageResponse) SetPriority(v PriorityLevel) {
-	x.xxx_hidden_Priority = v
-}
-
-func (x *TriageResponse) SetUrgencyRating(v int32) {
-	x.xxx_hidden_UrgencyRating = v
-}
-
-func (x *TriageResponse) SetBlastRadiusPercentage(v float32) {
-	x.xxx_hidden_BlastRadiusPercentage = v
-}
-
-func (x *TriageResponse) SetComplianceClassification(v string) {
-	x.xxx_hidden_ComplianceClassification = v
-}
-
-func (x *TriageResponse) HasRoutingTarget() bool {
-	if x == nil {
-		return false
-	}
-	return x.xxx_hidden_RoutingTarget != nil
-}
-
-func (x *TriageResponse) HasAutomatedRunbook() bool {
-	if x == nil {
-		return false
-	}
-	_, ok := x.xxx_hidden_RoutingTarget.(*triageResponse_AutomatedRunbook)
-	return ok
-}
-
-func (x *TriageResponse) HasOncallEngineer() bool {
-	if x == nil {
-		return false
-	}
-	_, ok := x.xxx_hidden_RoutingTarget.(*triageResponse_OncallEngineer)
-	return ok
-}
-
-func (x *TriageResponse) HasIncidentCommander() bool {
-	if x == nil {
-		return false
-	}
-	_, ok := x.xxx_hidden_RoutingTarget.(*triageResponse_IncidentCommander)
-	return ok
-}
-
-func (x *TriageResponse) ClearRoutingTarget() {
-	x.xxx_hidden_RoutingTarget = nil
-}
-
-func (x *TriageResponse) ClearAutomatedRunbook() {
-	if _, ok := x.xxx_hidden_RoutingTarget.(*triageResponse_AutomatedRunbook); ok {
-		x.xxx_hidden_RoutingTarget = nil
-	}
-}
-
-func (x *TriageResponse) ClearOncallEngineer() {
-	if _, ok := x.xxx_hidden_RoutingTarget.(*triageResponse_OncallEngineer); ok {
-		x.xxx_hidden_RoutingTarget = nil
-	}
-}
-
-func (x *TriageResponse) ClearIncidentCommander() {
-	if _, ok := x.xxx_hidden_RoutingTarget.(*triageResponse_IncidentCommander); ok {
-		x.xxx_hidden_RoutingTarget = nil
-	}
-}
-
-const TriageResponse_RoutingTarget_not_set_case case_TriageResponse_RoutingTarget = 0
-const TriageResponse_AutomatedRunbook_case case_TriageResponse_RoutingTarget = 1
-const TriageResponse_OncallEngineer_case case_TriageResponse_RoutingTarget = 2
-const TriageResponse_IncidentCommander_case case_TriageResponse_RoutingTarget = 3
-
-func (x *TriageResponse) WhichRoutingTarget() case_TriageResponse_RoutingTarget {
-	if x == nil {
-		return TriageResponse_RoutingTarget_not_set_case
-	}
-	switch x.xxx_hidden_RoutingTarget.(type) {
-	case *triageResponse_AutomatedRunbook:
-		return TriageResponse_AutomatedRunbook_case
-	case *triageResponse_OncallEngineer:
-		return TriageResponse_OncallEngineer_case
-	case *triageResponse_IncidentCommander:
-		return TriageResponse_IncidentCommander_case
-	default:
-		return TriageResponse_RoutingTarget_not_set_case
-	}
-}
-
-type TriageResponse_builder struct {
-	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
-
-	// 1. Oneof mutual exclusion -> Jev Choice question
-	// Jev selects the single most appropriate routing target based on input context.
-
-	// Fields of oneof xxx_hidden_RoutingTarget:
-	AutomatedRunbook  *string
-	OncallEngineer    *string
-	IncidentCommander *string
-	// -- end of xxx_hidden_RoutingTarget
-	// 2. Boolean field -> Jev Noul question
-	// Evaluates binary intent with a calibrated confidence threshold (0.0 - 1.0).
-	RequiresImmediatePaging bool
-	// 3. Enum field with criteria guidance -> Jev Choice question
-	Priority PriorityLevel
-	// 4. Bounded integer range -> Jev Score with explicit rubric levels
-	UrgencyRating int32
-	// 5. Continuous numeric scale -> Jev Score with explicit rubric tiers
-	BlastRadiusPercentage float32
-	// 6. String with discrete allowed choices -> Jev Choice question
-	ComplianceClassification string
-}
-
-func (b0 TriageResponse_builder) Build() *TriageResponse {
-	m0 := &TriageResponse{}
-	b, x := &b0, m0
-	_, _ = b, x
-	if b.AutomatedRunbook != nil {
-		x.xxx_hidden_RoutingTarget = &triageResponse_AutomatedRunbook{*b.AutomatedRunbook}
-	}
-	if b.OncallEngineer != nil {
-		x.xxx_hidden_RoutingTarget = &triageResponse_OncallEngineer{*b.OncallEngineer}
-	}
-	if b.IncidentCommander != nil {
-		x.xxx_hidden_RoutingTarget = &triageResponse_IncidentCommander{*b.IncidentCommander}
-	}
-	x.xxx_hidden_RequiresImmediatePaging = b.RequiresImmediatePaging
-	x.xxx_hidden_Priority = b.Priority
-	x.xxx_hidden_UrgencyRating = b.UrgencyRating
-	x.xxx_hidden_BlastRadiusPercentage = b.BlastRadiusPercentage
-	x.xxx_hidden_ComplianceClassification = b.ComplianceClassification
-	return m0
-}
-
-type case_TriageResponse_RoutingTarget protoreflect.FieldNumber
-
-func (x case_TriageResponse_RoutingTarget) String() string {
-	md := file_incident_v1_incident_proto_msgTypes[0].Descriptor()
-	if x == 0 {
-		return "not set"
-	}
-	return protoimpl.X.MessageFieldStringOf(md, protoreflect.FieldNumber(x))
 }
 
 type isTriageResponse_RoutingTarget interface {
 	isTriageResponse_RoutingTarget()
 }
 
-type triageResponse_AutomatedRunbook struct {
-	AutomatedRunbook string `protobuf:"bytes,1,opt,name=automated_runbook,json=automatedRunbook,oneof"`
+type TriageResponse_AutomatedRunbook struct {
+	AutomatedRunbook string `protobuf:"bytes,1,opt,name=automated_runbook,json=automatedRunbook,proto3,oneof"`
 }
 
-type triageResponse_OncallEngineer struct {
-	OncallEngineer string `protobuf:"bytes,2,opt,name=oncall_engineer,json=oncallEngineer,oneof"`
+type TriageResponse_OncallEngineer struct {
+	OncallEngineer string `protobuf:"bytes,2,opt,name=oncall_engineer,json=oncallEngineer,proto3,oneof"`
 }
 
-type triageResponse_IncidentCommander struct {
-	IncidentCommander string `protobuf:"bytes,3,opt,name=incident_commander,json=incidentCommander,oneof"`
+type TriageResponse_IncidentCommander struct {
+	IncidentCommander string `protobuf:"bytes,3,opt,name=incident_commander,json=incidentCommander,proto3,oneof"`
 }
 
-func (*triageResponse_AutomatedRunbook) isTriageResponse_RoutingTarget() {}
+func (*TriageResponse_AutomatedRunbook) isTriageResponse_RoutingTarget() {}
 
-func (*triageResponse_OncallEngineer) isTriageResponse_RoutingTarget() {}
+func (*TriageResponse_OncallEngineer) isTriageResponse_RoutingTarget() {}
 
-func (*triageResponse_IncidentCommander) isTriageResponse_RoutingTarget() {}
+func (*TriageResponse_IncidentCommander) isTriageResponse_RoutingTarget() {}
 
 // Detailed decisions retain probabilities, confidence, and rubric positions.
 type TriageDetailsResponse struct {
-	state                               protoimpl.MessageState `protogen:"opaque.v1"`
-	xxx_hidden_RoutingTarget            *v1.Choice             `protobuf:"bytes,1,opt,name=routing_target"`
-	xxx_hidden_RequiresImmediatePaging  *v1.Noul               `protobuf:"bytes,4,opt,name=requires_immediate_paging,json=requiresImmediatePaging"`
-	xxx_hidden_Priority                 *v1.Choice             `protobuf:"bytes,5,opt,name=priority"`
-	xxx_hidden_UrgencyRating            *v1.Score              `protobuf:"bytes,6,opt,name=urgency_rating,json=urgencyRating"`
-	xxx_hidden_BlastRadiusPercentage    *v1.Score              `protobuf:"bytes,7,opt,name=blast_radius_percentage,json=blastRadiusPercentage"`
-	xxx_hidden_ComplianceClassification *v1.Choice             `protobuf:"bytes,8,opt,name=compliance_classification,json=complianceClassification"`
-	xxx_hidden_Meta                     *v1.Meta               `protobuf:"bytes,99,opt,name=meta"`
-	unknownFields                       protoimpl.UnknownFields
-	sizeCache                           protoimpl.SizeCache
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// A detailed choice uses explicit labels instead of a decision oneof.
+	RoutingTarget *v1.Choice `protobuf:"bytes,1,opt,name=routing_target,proto3" json:"routing_target,omitempty"`
+	// Noul retains the thresholded value and raw probability.
+	// Evaluates binary intent with a calibrated confidence threshold (0.0 - 1.0).
+	RequiresImmediatePaging *v1.Noul `protobuf:"bytes,4,opt,name=requires_immediate_paging,json=requiresImmediatePaging,proto3" json:"requires_immediate_paging,omitempty"`
+	// Choice retains a string label and provider confidence/distribution.
+	Priority *v1.Choice `protobuf:"bytes,5,opt,name=priority,proto3" json:"priority,omitempty"`
+	// Score.value is a double, so fractional interpolation is preserved.
+	UrgencyRating *v1.Score `protobuf:"bytes,6,opt,name=urgency_rating,json=urgencyRating,proto3" json:"urgency_rating,omitempty"`
+	// The domain value and raw rubric position are both available.
+	BlastRadiusPercentage *v1.Score `protobuf:"bytes,7,opt,name=blast_radius_percentage,json=blastRadiusPercentage,proto3" json:"blast_radius_percentage,omitempty"`
+	// Explicit choices also work for detailed categorical decisions.
+	ComplianceClassification *v1.Choice `protobuf:"bytes,8,opt,name=compliance_classification,json=complianceClassification,proto3" json:"compliance_classification,omitempty"`
+	// Execution metadata does not generate an additional question.
+	Meta          *v1.Meta `protobuf:"bytes,99,opt,name=meta,proto3" json:"meta,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *TriageDetailsResponse) Reset() {
@@ -392,203 +271,69 @@ func (x *TriageDetailsResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
+// Deprecated: Use TriageDetailsResponse.ProtoReflect.Descriptor instead.
+func (*TriageDetailsResponse) Descriptor() ([]byte, []int) {
+	return file_incident_v1_incident_proto_rawDescGZIP(), []int{1}
+}
+
 func (x *TriageDetailsResponse) GetRoutingTarget() *v1.Choice {
 	if x != nil {
-		return x.xxx_hidden_RoutingTarget
+		return x.RoutingTarget
 	}
 	return nil
 }
 
 func (x *TriageDetailsResponse) GetRequiresImmediatePaging() *v1.Noul {
 	if x != nil {
-		return x.xxx_hidden_RequiresImmediatePaging
+		return x.RequiresImmediatePaging
 	}
 	return nil
 }
 
 func (x *TriageDetailsResponse) GetPriority() *v1.Choice {
 	if x != nil {
-		return x.xxx_hidden_Priority
+		return x.Priority
 	}
 	return nil
 }
 
 func (x *TriageDetailsResponse) GetUrgencyRating() *v1.Score {
 	if x != nil {
-		return x.xxx_hidden_UrgencyRating
+		return x.UrgencyRating
 	}
 	return nil
 }
 
 func (x *TriageDetailsResponse) GetBlastRadiusPercentage() *v1.Score {
 	if x != nil {
-		return x.xxx_hidden_BlastRadiusPercentage
+		return x.BlastRadiusPercentage
 	}
 	return nil
 }
 
 func (x *TriageDetailsResponse) GetComplianceClassification() *v1.Choice {
 	if x != nil {
-		return x.xxx_hidden_ComplianceClassification
+		return x.ComplianceClassification
 	}
 	return nil
 }
 
 func (x *TriageDetailsResponse) GetMeta() *v1.Meta {
 	if x != nil {
-		return x.xxx_hidden_Meta
+		return x.Meta
 	}
 	return nil
 }
 
-func (x *TriageDetailsResponse) SetRoutingTarget(v *v1.Choice) {
-	x.xxx_hidden_RoutingTarget = v
-}
-
-func (x *TriageDetailsResponse) SetRequiresImmediatePaging(v *v1.Noul) {
-	x.xxx_hidden_RequiresImmediatePaging = v
-}
-
-func (x *TriageDetailsResponse) SetPriority(v *v1.Choice) {
-	x.xxx_hidden_Priority = v
-}
-
-func (x *TriageDetailsResponse) SetUrgencyRating(v *v1.Score) {
-	x.xxx_hidden_UrgencyRating = v
-}
-
-func (x *TriageDetailsResponse) SetBlastRadiusPercentage(v *v1.Score) {
-	x.xxx_hidden_BlastRadiusPercentage = v
-}
-
-func (x *TriageDetailsResponse) SetComplianceClassification(v *v1.Choice) {
-	x.xxx_hidden_ComplianceClassification = v
-}
-
-func (x *TriageDetailsResponse) SetMeta(v *v1.Meta) {
-	x.xxx_hidden_Meta = v
-}
-
-func (x *TriageDetailsResponse) HasRoutingTarget() bool {
-	if x == nil {
-		return false
-	}
-	return x.xxx_hidden_RoutingTarget != nil
-}
-
-func (x *TriageDetailsResponse) HasRequiresImmediatePaging() bool {
-	if x == nil {
-		return false
-	}
-	return x.xxx_hidden_RequiresImmediatePaging != nil
-}
-
-func (x *TriageDetailsResponse) HasPriority() bool {
-	if x == nil {
-		return false
-	}
-	return x.xxx_hidden_Priority != nil
-}
-
-func (x *TriageDetailsResponse) HasUrgencyRating() bool {
-	if x == nil {
-		return false
-	}
-	return x.xxx_hidden_UrgencyRating != nil
-}
-
-func (x *TriageDetailsResponse) HasBlastRadiusPercentage() bool {
-	if x == nil {
-		return false
-	}
-	return x.xxx_hidden_BlastRadiusPercentage != nil
-}
-
-func (x *TriageDetailsResponse) HasComplianceClassification() bool {
-	if x == nil {
-		return false
-	}
-	return x.xxx_hidden_ComplianceClassification != nil
-}
-
-func (x *TriageDetailsResponse) HasMeta() bool {
-	if x == nil {
-		return false
-	}
-	return x.xxx_hidden_Meta != nil
-}
-
-func (x *TriageDetailsResponse) ClearRoutingTarget() {
-	x.xxx_hidden_RoutingTarget = nil
-}
-
-func (x *TriageDetailsResponse) ClearRequiresImmediatePaging() {
-	x.xxx_hidden_RequiresImmediatePaging = nil
-}
-
-func (x *TriageDetailsResponse) ClearPriority() {
-	x.xxx_hidden_Priority = nil
-}
-
-func (x *TriageDetailsResponse) ClearUrgencyRating() {
-	x.xxx_hidden_UrgencyRating = nil
-}
-
-func (x *TriageDetailsResponse) ClearBlastRadiusPercentage() {
-	x.xxx_hidden_BlastRadiusPercentage = nil
-}
-
-func (x *TriageDetailsResponse) ClearComplianceClassification() {
-	x.xxx_hidden_ComplianceClassification = nil
-}
-
-func (x *TriageDetailsResponse) ClearMeta() {
-	x.xxx_hidden_Meta = nil
-}
-
-type TriageDetailsResponse_builder struct {
-	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
-
-	// A detailed choice uses explicit labels instead of a decision oneof.
-	RoutingTarget *v1.Choice
-	// Noul retains the thresholded value and raw probability.
-	// Evaluates binary intent with a calibrated confidence threshold (0.0 - 1.0).
-	RequiresImmediatePaging *v1.Noul
-	// Choice retains a string label and provider confidence/distribution.
-	Priority *v1.Choice
-	// Score.value is a double, so fractional interpolation is preserved.
-	UrgencyRating *v1.Score
-	// The domain value and raw rubric position are both available.
-	BlastRadiusPercentage *v1.Score
-	// Explicit choices also work for detailed categorical decisions.
-	ComplianceClassification *v1.Choice
-	// Execution metadata does not generate an additional question.
-	Meta *v1.Meta
-}
-
-func (b0 TriageDetailsResponse_builder) Build() *TriageDetailsResponse {
-	m0 := &TriageDetailsResponse{}
-	b, x := &b0, m0
-	_, _ = b, x
-	x.xxx_hidden_RoutingTarget = b.RoutingTarget
-	x.xxx_hidden_RequiresImmediatePaging = b.RequiresImmediatePaging
-	x.xxx_hidden_Priority = b.Priority
-	x.xxx_hidden_UrgencyRating = b.UrgencyRating
-	x.xxx_hidden_BlastRadiusPercentage = b.BlastRadiusPercentage
-	x.xxx_hidden_ComplianceClassification = b.ComplianceClassification
-	x.xxx_hidden_Meta = b.Meta
-	return m0
-}
-
 // Request context describing an incident to be triaged by Jev.
 type TriageRequest struct {
-	state                  protoimpl.MessageState `protogen:"opaque.v1"`
-	xxx_hidden_IncidentId  string                 `protobuf:"bytes,1,opt,name=incident_id,json=incidentId"`
-	xxx_hidden_Title       string                 `protobuf:"bytes,2,opt,name=title"`
-	xxx_hidden_Description string                 `protobuf:"bytes,3,opt,name=description"`
-	xxx_hidden_RawLogs     string                 `protobuf:"bytes,4,opt,name=raw_logs,json=rawLogs"`
-	unknownFields          protoimpl.UnknownFields
-	sizeCache              protoimpl.SizeCache
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	IncidentId    string                 `protobuf:"bytes,1,opt,name=incident_id,json=incidentId,proto3" json:"incident_id,omitempty"`
+	Title         string                 `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty"`
+	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
+	RawLogs       string                 `protobuf:"bytes,4,opt,name=raw_logs,json=rawLogs,proto3" json:"raw_logs,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *TriageRequest) Reset() {
@@ -616,68 +361,37 @@ func (x *TriageRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
+// Deprecated: Use TriageRequest.ProtoReflect.Descriptor instead.
+func (*TriageRequest) Descriptor() ([]byte, []int) {
+	return file_incident_v1_incident_proto_rawDescGZIP(), []int{2}
+}
+
 func (x *TriageRequest) GetIncidentId() string {
 	if x != nil {
-		return x.xxx_hidden_IncidentId
+		return x.IncidentId
 	}
 	return ""
 }
 
 func (x *TriageRequest) GetTitle() string {
 	if x != nil {
-		return x.xxx_hidden_Title
+		return x.Title
 	}
 	return ""
 }
 
 func (x *TriageRequest) GetDescription() string {
 	if x != nil {
-		return x.xxx_hidden_Description
+		return x.Description
 	}
 	return ""
 }
 
 func (x *TriageRequest) GetRawLogs() string {
 	if x != nil {
-		return x.xxx_hidden_RawLogs
+		return x.RawLogs
 	}
 	return ""
-}
-
-func (x *TriageRequest) SetIncidentId(v string) {
-	x.xxx_hidden_IncidentId = v
-}
-
-func (x *TriageRequest) SetTitle(v string) {
-	x.xxx_hidden_Title = v
-}
-
-func (x *TriageRequest) SetDescription(v string) {
-	x.xxx_hidden_Description = v
-}
-
-func (x *TriageRequest) SetRawLogs(v string) {
-	x.xxx_hidden_RawLogs = v
-}
-
-type TriageRequest_builder struct {
-	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
-
-	IncidentId  string
-	Title       string
-	Description string
-	RawLogs     string
-}
-
-func (b0 TriageRequest_builder) Build() *TriageRequest {
-	m0 := &TriageRequest{}
-	b, x := &b0, m0
-	_, _ = b, x
-	x.xxx_hidden_IncidentId = b.IncidentId
-	x.xxx_hidden_Title = b.Title
-	x.xxx_hidden_Description = b.Description
-	x.xxx_hidden_RawLogs = b.RawLogs
-	return m0
 }
 
 var File_incident_v1_incident_proto protoreflect.FileDescriptor
@@ -766,7 +480,19 @@ const file_incident_v1_incident_proto_rawDesc = "" +
 	"\x17PRIORITY_LEVEL_CRITICAL\x10\x042\xab\x01\n" +
 	"\x15IncidentTriageService\x12A\n" +
 	"\x06Triage\x12\x1a.incident.v1.TriageRequest\x1a\x1b.incident.v1.TriageResponse\x12O\n" +
-	"\rTriageDetails\x12\x1a.incident.v1.TriageRequest\x1a\".incident.v1.TriageDetailsResponseBPZIgithub.com/bufbuild/protoc-gen-jev/examples/go/gen/incident/v1;incidentv1\x92\x03\x02\b\x02b\beditionsp\xe9\a"
+	"\rTriageDetails\x12\x1a.incident.v1.TriageRequest\x1a\".incident.v1.TriageDetailsResponseBKZIgithub.com/bufbuild/protoc-gen-jev/examples/go/gen/incident/v1;incidentv1b\x06proto3"
+
+var (
+	file_incident_v1_incident_proto_rawDescOnce sync.Once
+	file_incident_v1_incident_proto_rawDescData []byte
+)
+
+func file_incident_v1_incident_proto_rawDescGZIP() []byte {
+	file_incident_v1_incident_proto_rawDescOnce.Do(func() {
+		file_incident_v1_incident_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_incident_v1_incident_proto_rawDesc), len(file_incident_v1_incident_proto_rawDesc)))
+	})
+	return file_incident_v1_incident_proto_rawDescData
+}
 
 var file_incident_v1_incident_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_incident_v1_incident_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
@@ -806,9 +532,9 @@ func file_incident_v1_incident_proto_init() {
 		return
 	}
 	file_incident_v1_incident_proto_msgTypes[0].OneofWrappers = []any{
-		(*triageResponse_AutomatedRunbook)(nil),
-		(*triageResponse_OncallEngineer)(nil),
-		(*triageResponse_IncidentCommander)(nil),
+		(*TriageResponse_AutomatedRunbook)(nil),
+		(*TriageResponse_OncallEngineer)(nil),
+		(*TriageResponse_IncidentCommander)(nil),
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{

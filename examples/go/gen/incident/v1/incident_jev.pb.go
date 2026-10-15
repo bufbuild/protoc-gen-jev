@@ -27,17 +27,17 @@ func (c *TriageResponseJevClient) Evaluate(ctx context.Context, req any) (*Triag
 	out := &TriageResponse{}
 	switch label := decisions.Choices["routing_target"].GetValue(); label {
 	case "automated_runbook":
-		out.SetAutomatedRunbook(label)
+		out.RoutingTarget = &TriageResponse_AutomatedRunbook{AutomatedRunbook: label}
 	case "oncall_engineer":
-		out.SetOncallEngineer(label)
+		out.RoutingTarget = &TriageResponse_OncallEngineer{OncallEngineer: label}
 	case "incident_commander":
-		out.SetIncidentCommander(label)
+		out.RoutingTarget = &TriageResponse_IncidentCommander{IncidentCommander: label}
 	}
-	out.SetRequiresImmediatePaging(decisions.Nouls["requiresImmediatePaging"].GetValue())
-	out.SetPriority(PriorityLevel(PriorityLevel_value[decisions.Choices["priority"].GetValue()]))
-	out.SetUrgencyRating(int32(decisions.Scores["urgencyRating"].GetValue()))
-	out.SetBlastRadiusPercentage(float32(decisions.Scores["blastRadiusPercentage"].GetValue()))
-	out.SetComplianceClassification(decisions.Choices["complianceClassification"].GetValue())
+	out.RequiresImmediatePaging = decisions.Nouls["requiresImmediatePaging"].GetValue()
+	out.Priority = PriorityLevel(PriorityLevel_value[decisions.Choices["priority"].GetValue()])
+	out.UrgencyRating = int32(decisions.Scores["urgencyRating"].GetValue())
+	out.BlastRadiusPercentage = float32(decisions.Scores["blastRadiusPercentage"].GetValue())
+	out.ComplianceClassification = decisions.Choices["complianceClassification"].GetValue()
 	return out, nil
 }
 
@@ -64,13 +64,13 @@ func (c *TriageDetailsResponseJevClient) Evaluate(ctx context.Context, req any) 
 		return nil, err
 	}
 	out := &TriageDetailsResponse{}
-	out.SetRoutingTarget(decisions.Choices["routing_target"])
-	out.SetRequiresImmediatePaging(decisions.Nouls["requiresImmediatePaging"])
-	out.SetPriority(decisions.Choices["priority"])
-	out.SetUrgencyRating(decisions.Scores["urgencyRating"])
-	out.SetBlastRadiusPercentage(decisions.Scores["blastRadiusPercentage"])
-	out.SetComplianceClassification(decisions.Choices["complianceClassification"])
-	out.SetMeta(decisions.Meta)
+	out.RoutingTarget = decisions.Choices["routing_target"]
+	out.RequiresImmediatePaging = decisions.Nouls["requiresImmediatePaging"]
+	out.Priority = decisions.Choices["priority"]
+	out.UrgencyRating = decisions.Scores["urgencyRating"]
+	out.BlastRadiusPercentage = decisions.Scores["blastRadiusPercentage"]
+	out.ComplianceClassification = decisions.Choices["complianceClassification"]
+	out.Meta = decisions.Meta
 	return out, nil
 }
 
@@ -99,17 +99,17 @@ func (c *JevIncidentTriageService) Triage(ctx context.Context, req *TriageReques
 	out := &TriageResponse{}
 	switch label := decisions.Choices["routing_target"].GetValue(); label {
 	case "automated_runbook":
-		out.SetAutomatedRunbook(label)
+		out.RoutingTarget = &TriageResponse_AutomatedRunbook{AutomatedRunbook: label}
 	case "oncall_engineer":
-		out.SetOncallEngineer(label)
+		out.RoutingTarget = &TriageResponse_OncallEngineer{OncallEngineer: label}
 	case "incident_commander":
-		out.SetIncidentCommander(label)
+		out.RoutingTarget = &TriageResponse_IncidentCommander{IncidentCommander: label}
 	}
-	out.SetRequiresImmediatePaging(decisions.Nouls["requiresImmediatePaging"].GetValue())
-	out.SetPriority(PriorityLevel(PriorityLevel_value[decisions.Choices["priority"].GetValue()]))
-	out.SetUrgencyRating(int32(decisions.Scores["urgencyRating"].GetValue()))
-	out.SetBlastRadiusPercentage(float32(decisions.Scores["blastRadiusPercentage"].GetValue()))
-	out.SetComplianceClassification(decisions.Choices["complianceClassification"].GetValue())
+	out.RequiresImmediatePaging = decisions.Nouls["requiresImmediatePaging"].GetValue()
+	out.Priority = PriorityLevel(PriorityLevel_value[decisions.Choices["priority"].GetValue()])
+	out.UrgencyRating = int32(decisions.Scores["urgencyRating"].GetValue())
+	out.BlastRadiusPercentage = float32(decisions.Scores["blastRadiusPercentage"].GetValue())
+	out.ComplianceClassification = decisions.Choices["complianceClassification"].GetValue()
 	return out, nil
 }
 
@@ -128,13 +128,13 @@ func (c *JevIncidentTriageService) TriageDetails(ctx context.Context, req *Triag
 		return nil, err
 	}
 	out := &TriageDetailsResponse{}
-	out.SetRoutingTarget(decisions.Choices["routing_target"])
-	out.SetRequiresImmediatePaging(decisions.Nouls["requiresImmediatePaging"])
-	out.SetPriority(decisions.Choices["priority"])
-	out.SetUrgencyRating(decisions.Scores["urgencyRating"])
-	out.SetBlastRadiusPercentage(decisions.Scores["blastRadiusPercentage"])
-	out.SetComplianceClassification(decisions.Choices["complianceClassification"])
-	out.SetMeta(decisions.Meta)
+	out.RoutingTarget = decisions.Choices["routing_target"]
+	out.RequiresImmediatePaging = decisions.Nouls["requiresImmediatePaging"]
+	out.Priority = decisions.Choices["priority"]
+	out.UrgencyRating = decisions.Scores["urgencyRating"]
+	out.BlastRadiusPercentage = decisions.Scores["blastRadiusPercentage"]
+	out.ComplianceClassification = decisions.Choices["complianceClassification"]
+	out.Meta = decisions.Meta
 	return out, nil
 }
 

@@ -39,11 +39,11 @@ func ExampleJevIncidentTriageService() {
 
 	client := incidentv1.NewJevIncidentTriageService(jevClient)
 
-	req := (incidentv1.TriageRequest_builder{
+	req := &incidentv1.TriageRequest{
 		IncidentId:  "INC-1234",
 		Title:       "Database failover triggered",
 		Description: "Primary node unresponsive; standby promoted successfully",
-	}).Build()
+	}
 
 	decision, err := client.Triage(ctx, req)
 	if err != nil {
@@ -85,7 +85,7 @@ func TestTriageStyles(t *testing.T) {
 	transport.BaseURL = server.URL
 	transport.HTTPClient = server.Client()
 	client := incidentv1.NewJevIncidentTriageService(transport)
-	req := (incidentv1.TriageRequest_builder{Title: "Database outage"}).Build()
+	req := &incidentv1.TriageRequest{Title: "Database outage"}
 	scalar, err := client.Triage(context.Background(), req)
 	require.NoError(t, err)
 	require.Equal(t, 1, calls)
